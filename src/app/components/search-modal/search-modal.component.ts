@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search-modal',
@@ -9,8 +9,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './search-modal.component.scss',
 })
 export class SearchModalComponent {
+  @Input() isOpen = false;
   @Output() closeModal = new EventEmitter();
-  results = Array.from({ length: 1 }, (_, i) => `School #${i + 1}`);
+  results = Array.from({ length: 10 }, (_, i) => ({
+    image:
+      'https://www.swisskidsacademy.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fswiss_logo.9ee6cc78.jpg&w=96&q=75',
+    name: `school ${i + 1}`,
+  }));
+
   onClose() {
     this.closeModal.emit();
   }

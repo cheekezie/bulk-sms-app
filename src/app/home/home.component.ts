@@ -10,12 +10,13 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TenantService } from '../core/services/tenant.service';
-import { SearchModalComponent } from '../search-modal/search-modal.component';
+import { SearchModalComponent } from '../components/search-modal/search-modal.component';
+import { ModalComponent } from '../components/modal/modal.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SearchModalComponent, CommonModule],
+  imports: [SearchModalComponent, CommonModule, ModalComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

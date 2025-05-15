@@ -1,11 +1,12 @@
 <div
+  *ngIf="isOpen"
   class="fixed inset-0 flex justify-center items-start overflow-y-auto bg-black/40 backdrop-blur-sm z-10"
   (click)="onClose()"
 >
   <!-- Modal Content -->
   <div class="mt-6 mb-6 w-full px-4 flex justify-center">
     <div
-      class="bg-white rounded-xl shadow-lg p-6 w-full min-w-[700px] max-w-[1280px] h-[calc(100vh-3rem)] flex flex-col"
+      class="bg-white rounded-xl shadow-lg p-6 w-full md:min-w-[700px] max-w-[1280px] h-[calc(100vh-3rem)] flex flex-col"
       (click)="$event.stopPropagation()"
     >
       <h2 class="text-xl font-semibold mb-4">Start Payment</h2>
@@ -37,16 +38,22 @@
         </div>
       </div>
 
+      <h2 class="text-xl font-medium mb-4 text-primary">Seach Result</h2>
       <!-- Scrollable content section -->
       <div
         class="overflow-y-auto flex-1 border border-gray-200 rounded-md p-3 space-y-2"
       >
-        <h2 class="text-xl font-medium mb-4 text-primary">Seach Result</h2>
         <div
           *ngFor="let school of results"
-          class="p-2 border-b last:border-none"
+          class="p-2 border-b pr-8 last:border-none flex items-center hover:bg-primary hover:!text-white cursor-pointer rounded-lg transform transition duration-200"
         >
-          {{ school }}
+          <img [src]="school.image" class="w-8 mr-4 rounded-lg" alt="" />
+          <p class="text-sm">{{ school.name }}</p>
+          <span
+            class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition"
+          >
+            chevron_right
+          </span>
         </div>
       </div>
 

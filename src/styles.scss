@@ -29,10 +29,10 @@ body {
 .hero {
   // min-height: 890px;
   min-height: 95vh;
-  border-bottom-left-radius: 15rem;
-  border-bottom-right-radius: 15rem;
-  -webkit-border-bottom-left-radius: 15rem;
-  -webkit-border-bottom-right-radius: 15rem;
+  border-bottom-left-radius: 5rem;
+  border-bottom-right-radius: 5rem;
+  -webkit-border-bottom-left-radius: 5rem;
+  -webkit-border-bottom-right-radius: 5rem;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -60,6 +60,27 @@ body {
   border-radius: 20px;
 }
 
+@layer base {
+  /* For all scrollbars */
+  * {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 9999px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
 @layer utilities {
   .scrollbar-hide {
     scrollbar-width: none; /* Firefox */

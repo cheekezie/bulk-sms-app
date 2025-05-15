@@ -15,8 +15,10 @@
 
     <div class="fn-row text-center md:min-w-[700px]">
       <div class="mb-4">
-        <span class="rounded-[30px] p-2 px-4 bg-primary text-white text-sm"
+        <span
+          class="rounded-[30px] p-2 px-4 bg-primary text-white text-sm inline-flex items-center"
           >Make fast & secured payments
+          <span class="material-symbols-outlined ml-3"> security </span>
         </span>
       </div>
 
@@ -88,7 +90,7 @@
   </div>
 
   <app-search-modal
-    *ngIf="isModalOpen"
+    [isOpen]="isModalOpen"
     (closeModal)="onCloseModal()"
   ></app-search-modal>
 

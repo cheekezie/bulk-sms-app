@@ -1,0 +1,31 @@
+<!-- Modal Wrapper -->
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 flex justify-center items-start overflow-y-auto bg-black/40 backdrop-blur-sm z-10"
+  (click)="onClose()"
+>
+  <div class="mt-6 mb-6 w-full px-4 flex justify-center">
+    <!-- Modal -->
+    <div
+      class="bg-white rounded-xl shadow-lg p-6 w-full md:min-w-[700px] max-w-[1280px] h-[calc(100vh-3rem)] flex flex-col"
+      (click)="$event.stopPropagation()"
+    >
+      <h2 class="text-xl font-semibold mb-4">{{ title }}</h2>
+
+      <!-- ng-content will be structured to fit into this layout -->
+      <div class="h-full overflow-y-auto">
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Modal footer pinned to bottom -->
+      <div class="pt-4">
+        <button
+          class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90"
+          (click)="onClose()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
