@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+:root {
+  --white: #fff;
+  --primary: #d41370;
+  --secondary: #032e6e;
+  --light-primary: #99514f;
+  --primary-200: #f9f8ff;
+}
