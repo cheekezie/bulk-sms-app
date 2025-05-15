@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
       content: 'Step 5: Make your payment or transfer.',
     },
   ];
+  year = new Date().getFullYear();
 
   private tenantService = inject(TenantService);
 
@@ -73,6 +74,10 @@ export class HomeComponent implements OnInit {
 
   get logo() {
     return this.tenantService.getLogo;
+  }
+
+  get footer() {
+    return this.tenantService.footer;
   }
 
   activeTab = 0;

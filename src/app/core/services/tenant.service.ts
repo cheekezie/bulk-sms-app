@@ -48,4 +48,10 @@ export class TenantService {
   get favicon(): string | null {
     return this.config?.favicon || null;
   }
+  get footer() {
+    return {
+      name: this.config?.poweredBy || '',
+      url: this.config?.poweredByUrl || '',
+    };
+  }
 }
