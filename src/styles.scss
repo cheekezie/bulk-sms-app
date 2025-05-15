@@ -1,8 +1,21 @@
-@import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+// @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
-  font-family: "Roboto", sans-serif;
+  font-family: "Lato", sans-serif;
+  h6 {
+    font-family: "Roboto", sans-serif;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
 }
 
 :root {
@@ -11,4 +24,66 @@
   --secondary: #032e6e;
   --light-primary: #99514f;
   --primary-200: #f9f8ff;
+}
+
+.hero {
+  // min-height: 890px;
+  min-height: 95vh;
+  border-bottom-left-radius: 15rem;
+  border-bottom-right-radius: 15rem;
+  -webkit-border-bottom-left-radius: 15rem;
+  -webkit-border-bottom-right-radius: 15rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fn-row {
+  padding-right: 15px;
+  padding-left: 15px;
+  max-width: 1280px;
+  margin: auto;
+}
+
+.pay-tabs {
+  z-index: 9;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  position: relative;
+  padding: 50px;
+  width: 100%;
+  min-width: 240px;
+  background-color: #fff;
+  margin-top: -90px;
+  border-radius: 20px;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .no-scroll {
+    overflow: hidden;
+  }
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-enter {
+    animation: enter 0.2s ease-out forwards;
+  }
 }

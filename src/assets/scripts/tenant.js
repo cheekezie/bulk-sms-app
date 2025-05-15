@@ -1,6 +1,7 @@
 (() => {
-  const LOADER_ID = "feesng-loader";
+  const LOADER_ID = "appLoader";
 
+  // Script tag is called before body. wait for body before manipulating loader
   const waitForBody = async () => {
     return new Promise((resolve) => {
       if (document.body) return resolve();
@@ -40,6 +41,15 @@
       ?.split("=")[1];
 
   const applyMetaConfig = (config) => {
+    document.documentElement.style.setProperty(
+      "--primary",
+      config.primaryColor
+    );
+    document.documentElement.style.setProperty(
+      "--secondary",
+      config.secondaryColor
+    );
+
     document.title = config?.htmlMetaTitle;
 
     const faviconUrl = config?.favicon;
@@ -66,6 +76,7 @@
     const cookieKey = `tenant_config_${hostname}`;
     const cached = getCookie(cookieKey);
 
+    // Parse and use saved config
     if (cached) {
       try {
         const cachedConfig = JSON.parse(decodeURIComponent(cached));
@@ -75,6 +86,7 @@
       }
     }
 
+    // Refresh config in case of changes
     const canShowLoader = !cached;
     if (canShowLoader) await showLoader();
 
@@ -111,6 +123,7 @@
       meta.content = "Securely pay your school fees online with Fees.ng.";
     } finally {
       if (canShowLoader) hideLoader();
+      window.__tenantMetaReady = true;
     }
   };
 

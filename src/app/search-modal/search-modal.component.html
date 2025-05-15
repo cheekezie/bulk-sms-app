@@ -1,0 +1,64 @@
+<div
+  class="fixed inset-0 flex justify-center items-start overflow-y-auto bg-black/40 backdrop-blur-sm z-10"
+  (click)="onClose()"
+>
+  <!-- Modal Content -->
+  <div class="mt-6 mb-6 w-full px-4 flex justify-center">
+    <div
+      class="bg-white rounded-xl shadow-lg p-6 w-full min-w-[700px] max-w-[1280px] h-[calc(100vh-3rem)] flex flex-col"
+      (click)="$event.stopPropagation()"
+    >
+      <h2 class="text-xl font-semibold mb-4">Start Payment</h2>
+
+      <!-- Modal search input -->
+      <div class="relative h-[100px] mb-6 bg-gray-300">
+        <input
+          type="text"
+          placeholder="Search for a school..."
+          class="w-full h-full pl-14 pr-4 text-xl text-gray-800 border-b-2 border-gray-300 focus:outline-none border-primary bg-transparent placeholder-gray-400"
+        />
+        <div
+          class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M11 4a7 7 0 015.196 11.804l4.002 4.002a1 1 0 01-1.414 1.414l-4.002-4.002A7 7 0 1111 4z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Scrollable content section -->
+      <div
+        class="overflow-y-auto flex-1 border border-gray-200 rounded-md p-3 space-y-2"
+      >
+        <h2 class="text-xl font-medium mb-4 text-primary">Seach Result</h2>
+        <div
+          *ngFor="let school of results"
+          class="p-2 border-b last:border-none"
+        >
+          {{ school }}
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="flex justify-end pt-4">
+        <button
+          class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90"
+          (click)="onClose()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
