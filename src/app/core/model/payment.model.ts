@@ -13,7 +13,13 @@ import {
   SystemType,
   VirtualAccTypeEnums,
 } from './enums';
-import { SchoolSubclassI, StudentI } from './student.mode';
+import {
+  DepartmentI,
+  ProgramI,
+  SchoolClassI,
+  SchoolSubclassI,
+  StudentI,
+} from './student.mode';
 
 export interface SchoolSearchResI {
   page: number;
@@ -158,7 +164,9 @@ export interface InitiatePaymentResponse {
 export interface ScheduleI {
   paymentId: string;
   fee: string;
-  class: string;
+  class: SchoolClassI;
+  department: DepartmentI;
+  program: ProgramI;
   session: string;
   schoolType: string;
   term: 'firstTerm' | 'secondTerm' | 'thirdTerm';

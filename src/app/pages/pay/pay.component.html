@@ -8,7 +8,7 @@
       <div [ngSwitch]="currStep">
         <ng-container *ngSwitchCase="1">
           <p class="text-lg text-dark text-center">Personal information</p>
-
+          <ng-container *ngTemplateOutlet="back"> </ng-container>
           <form (ngSubmit)="onFormSubmit()" [formGroup]="form" class="pt-8">
             <app-text-input
               label="Reg Number"

@@ -56,7 +56,18 @@
 
     <span
       class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
-      ># Primary 4</span
+      *ngIf="data.class"
+      ># {{ data.class.name }}</span
+    >
+    <span
+      class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
+      *ngIf="data.department"
+      ># {{ data.department.name }}</span
+    >
+    <span
+      class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
+      *ngIf="data.program"
+      ># {{ data.program.name }}</span
     >
   </div>
 

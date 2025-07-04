@@ -49,3 +49,21 @@ export interface SchoolSubclassI {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface DepartmentI {
+  _id: string;
+  name: string;
+  code: string;
+  programs: ProgramI[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProgramI {
+  _id: string;
+  name: string;
+  code: string;
+  duration: number;
+  createdAt: string;
+  updatedAt: string;
+}
