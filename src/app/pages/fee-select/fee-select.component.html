@@ -1,0 +1,44 @@
+<app-pay-container (back)="goBack()">
+  <ng-container>
+    <p class="text-lg text-dark text-center">Select a fee to proceed</p>
+
+    <app-loader [show]="loading" [type]="'circle'" />
+
+    <div
+      class="grid grid-cols-1 gap-4 pt-8"
+      [ngClass]="{ 'lg:grid-cols-2': fees.length > 1 }"
+    >
+      <div
+        *ngFor="let item of fees"
+        (click)="onSelect(item)"
+        class="bg-white shadow-md cursor-pointer rounded-xl p-4 flex items-center space-x-4 hover:shadow-lg transition-shadow"
+        [ngClass]="{ 'opacity-50': !item.active }"
+      >
+        <div class="text-primary bg-offwhite p-3 rounded-lg">
+          <i class="fas fa-money-check text-2xl"></i>
+        </div>
+
+        <div class="flex-1">
+          <p class="text-base font-semibold text-gray-800">
+            {{ item.title | titlecase }}
+          </p>
+          <p></p>
+          <p class="text-sm text-gray-500">
+            Status: {{ item.active ? "active" : "disabled" }}
+          </p>
+          <p class="text-sm text-gray-500" *ngIf="item.amount">
+            Amount: {{ item.amount | naira }}
+          </p>
+          <p class="text-sm text-gray-500">
+            Payable By:
+            {{ item.payerType === "others" ? "Public" : item.payerType }}
+          </p>
+        </div>
+
+        <div class="text-gray-400">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</app-pay-container>

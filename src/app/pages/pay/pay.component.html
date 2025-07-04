@@ -1,0 +1,145 @@
+<app-pay-container
+  (back)="goBack()"
+  [fee]="fee ? fee.title : ''"
+  [payerName]="verifiedStudent ? verifiedStudent.fullName : ''"
+>
+  <ng-container>
+    <div class="max-w-xl mx-auto">
+      <div [ngSwitch]="currStep">
+        <ng-container *ngSwitchCase="1">
+          <p class="text-lg text-dark text-center">Personal information</p>
+
+          <form (ngSubmit)="onFormSubmit()" [formGroup]="form" class="pt-8">
+            <app-text-input
+              label="Reg Number"
+              placeholder="Student Reg Number"
+              formControlName="regNumber"
+              id="regNumber"
+              name="regNumber"
+              [loading]="searching"
+              *ngIf="studentFee"
+            />
+
+            <div
+              class="border border-green-500 bg-green-100 text-green-500 text-sm px-2 py-1 rounded-[8px] mb-4"
+              *ngIf="verifiedStudent"
+            >
+              {{ verifiedStudent.fullName | titlecase }} -
+              {{ verifiedStudent.class.name }}
+            </div>
+
+            <app-text-input
+              *ngIf="fee?.requireValidation && externalFee"
+              label="Payer ID"
+              placeholder="Payer ID"
+              formControlName="extraInformation"
+            />
+
+            <app-text-input
+              label="Email"
+              type="email"
+              placeholder="e.g paschal@gmail.com"
+              formControlName="email"
+            />
+            <app-text-input
+              label="Phone Number"
+              type="number"
+              mode="numeric"
+              pattern="[0-9]*"
+              placeholder="e.g 0706200000"
+              formControlName="phoneNumber"
+            />
+
+            <div *ngIf="externalFee">
+              <app-select
+                label="Term"
+                formControlName="term"
+                [data]="terms"
+                valueKey="code"
+                labelKey="title"
+              />
+
+              <app-select
+                label="Session"
+                formControlName="year"
+                [data]="sessions"
+                valueKey="year"
+                labelKey="year"
+              />
+            </div>
+
+            <app-button
+              label="Next"
+              class="mt-4"
+              [disabled]="form.invalid"
+              [loading]="loading"
+            />
+          </form>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="2">
+          <app-loader [show]="loading" [type]="'circle'" />
+          <p class="text-lg text-dark text-center">Select a schedule to pay</p>
+          <ng-container *ngTemplateOutlet="back"> </ng-container>
+          <div class="pt-2">
+            <div
+              class="bg-white rounded-2xl shadow-md p-4 space-y-4 w-full hover:shadow-lg transition-shadow mb-4"
+              *ngFor="let item of scheduleItems"
+              (click)="onSelectSchedule(item)"
+            >
+              <app-payment-schedule
+                [data]="item"
+                (itemSelect)="onSelectSchedule($event)"
+              />
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="3">
+          <p class="text-lg text-dark text-center">Choose a payment method</p>
+          <ng-container *ngTemplateOutlet="back"> </ng-container>
+          <div class="pt-2">
+            <div
+              *ngFor="let item of methods"
+              (click)="onSelectMethod(item.method)"
+              class="bg-white shadow-md cursor-pointer rounded-xl p-4 mb-6 flex items-center space-x-4 hover:shadow-lg transition-shadow"
+            >
+              <div
+                class="text-primary bg-offwhite p-3 rounded-lg min-w-[75px] text-center"
+              >
+                <span class="material-symbols-outlined" *ngIf="item.icon">
+                  {{ item.icon }}
+                </span>
+                <img
+                  [src]="item.image"
+                  class="w-[50px]"
+                  alt=""
+                  *ngIf="item.image"
+                />
+              </div>
+
+              <div class="flex-1">
+                <p class="text-base font-semibold text-gray-800">
+                  {{ item.name | titlecase }}
+                </p>
+              </div>
+
+              <div class="text-gray-400">
+                <i class="fas fa-chevron-right"></i>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div *ngSwitchDefault></div>
+      </div>
+    </div>
+  </ng-container>
+</app-pay-container>
+
+<ng-template #back>
+  <button class="flex items-center mb-2 mt-6 text-black" (click)="goBack()">
+    <span class="material-symbols-outlined mr-3 text-black"> arrow_back </span>
+    Back
+  </button>
+</ng-template>

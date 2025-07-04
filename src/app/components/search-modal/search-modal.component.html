@@ -15,6 +15,7 @@
       <div class="relative h-[100px] mb-6 bg-gray-300">
         <input
           type="text"
+          [formControl]="schoolSearchCtrl"
           placeholder="Search for a school..."
           class="w-full h-full pl-14 pr-4 text-xl text-gray-800 border-b-2 border-gray-300 focus:outline-none border-primary bg-transparent placeholder-gray-400"
         />
@@ -38,6 +39,10 @@
         </div>
       </div>
 
+      <div class="text-center h-4">
+        <i class="fas fa-circle-notch fa-spin text-dark" *ngIf="searching"></i>
+      </div>
+
       <h2 class="text-xl font-medium mb-4 text-primary">Seach Result</h2>
       <!-- Scrollable content section -->
       <div
@@ -45,10 +50,23 @@
       >
         <div
           *ngFor="let school of results"
+          (click)="onSelectItem(school)"
           class="p-2 border-b pr-8 last:border-none flex items-center hover:bg-primary hover:!text-white cursor-pointer rounded-lg transform transition duration-200"
         >
-          <img [src]="school.image" class="w-8 mr-4 rounded-lg" alt="" />
-          <p class="text-sm">{{ school.name }}</p>
+          <img
+            [src]="school.logo"
+            class="w-8 mr-4 rounded-lg shadow-sm"
+            alt="school logo"
+            *ngIf="school.logo"
+          />
+
+          <span
+            class="material-symbols-outlined w-8 h-8 text-[2rem] mr-4 rounded-lg shadow-sm"
+            *ngIf="!school.logo"
+          >
+            school
+          </span>
+          <p class="text-sm">{{ school.organizationName }}</p>
           <span
             class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition"
           >
@@ -60,7 +78,7 @@
       <!-- Modal footer -->
       <div class="flex justify-end pt-4">
         <button
-          class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90"
+          class="bg-white text-black px-4 py-2 rounded border-black border"
           (click)="onClose()"
         >
           Close

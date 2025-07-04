@@ -11,13 +11,15 @@ module.exports = {
       colors: {
         primary: "var(--primary)",
         secondary: "var(--secondary)",
+        "dark-bg": "var(--dark-bg)",
         tertiary: "var(--tertiary)",
         accent: "#7FDBFF",
         black: "#111111",
         dark: "#505050",
         offwhite: "#eeeeee",
+        grey: "#171717",
         gray: {
-          DEFAULT: "F4F4F4",
+          DEFAULT: "#F4F4F4",
           100: "#F8F8F8",
           200: "#EAEAEA",
           300: "#FAFAFA",

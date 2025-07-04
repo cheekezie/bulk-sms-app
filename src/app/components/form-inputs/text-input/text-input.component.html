@@ -1,0 +1,26 @@
+<div class="form-group mb-4">
+  <label
+    for="text-input"
+    class="block mb-2 text-gray-400 text-sm"
+    *ngIf="label"
+    >{{ label }}</label
+  >
+  <input
+    [id]="id"
+    labelPlacement="floating"
+    [placeholder]="placeholder"
+    [type]="type || 'text'"
+    [inputMode]="mode"
+    [max]="max"
+    [min]="min"
+    [name]="name"
+    [pattern]="pattern"
+    [value]="value"
+    (input)="handleChange($event)"
+    class="border border-gray-500 rounded-lg text-dark min-h-[50px]
+     px-4 py-2 w-full focus:outline-none focus:ring-1 focus:ring-blue-600 {{
+      inputClass
+    }}"
+  />
+  <app-loader [show]="loading" type="bar" />
+</div>

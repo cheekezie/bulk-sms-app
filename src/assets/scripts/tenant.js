@@ -50,6 +50,11 @@
       config.secondaryColor
     );
 
+    document.documentElement.style.setProperty(
+      "--dark-bg",
+      config.darkBg ?? "#032e6e"
+    );
+
     document.title = config?.htmlMetaTitle;
 
     const faviconUrl = config?.favicon;

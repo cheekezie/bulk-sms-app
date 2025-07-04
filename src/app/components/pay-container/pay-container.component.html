@@ -1,0 +1,45 @@
+<main
+  class="md:grid md:grid-cols-[250px_1fr] relative bg-dark-bg text-white overflow-hidden px-4 md:px-8 py-10 min-h-[100vh]"
+>
+  <section class="mb-8 md:mb-0">
+    <div class="pt-8">
+      <button class="flex items-center mb-4" (click)="goBack()">
+        <span class="material-symbols-outlined mr-3"> arrow_back </span>
+        Back
+      </button>
+
+      <img [src]="logo" class="w-[100px]" alt="Logo" />
+    </div>
+    <app-sidebar-vector></app-sidebar-vector>
+  </section>
+
+  <section class="rounded-[20px] bg-white min-h-10 z-[1] px-3 md:px-6 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center mb-4 justify-center">
+        <img
+          [src]="school?.logo"
+          *ngIf="school?.logo"
+          class="w-[30px] mr-3"
+          alt="school logo"
+        />
+        <h6 class="text-xl font-bold truncate text-black" *ngIf="school">
+          {{ school.organizationName | titlecase }}
+        </h6>
+      </div>
+      <h6
+        class="text-[16px] font-semibold truncate text-grey mb-1 text-center"
+        *ngIf="fee"
+      >
+        {{ fee | titlecase }}
+      </h6>
+      <h6
+        class="text-[16px] font-semibold truncate text-grey text-center mb-3"
+        *ngIf="payerName"
+      >
+        {{ payerName | titlecase }}
+      </h6>
+
+      <ng-content></ng-content>
+    </div>
+  </section>
+</main>

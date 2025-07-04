@@ -1,0 +1,12 @@
+<!-- alert.component.html -->
+<div
+  *ngIf="alert"
+  [ngClass]="[
+    'alert-container w-[90%] md:w-[400px] transition-all duration-500 ease-in-out',
+    alert.position,
+    alert.type
+  ]"
+>
+  <strong *ngIf="alert.title">{{ alert.title }}</strong>
+  <p>{{ alert.description }}</p>
+</div>

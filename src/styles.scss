@@ -22,6 +22,7 @@ body {
   --white: #fff;
   --primary: #d41370;
   --secondary: #032e6e;
+  --dark-bg: #353746;
   --light-primary: #99514f;
   --primary-200: #f9f8ff;
 }
@@ -58,6 +59,14 @@ body {
   background-color: #fff;
   margin-top: -90px;
   border-radius: 20px;
+}
+
+.shadow-md {
+  box-shadow: 0px 4px 30px 2px rgba(32, 25, 67, 0.08);
+}
+
+.shadow-xsm {
+  box-shadow: 0px 4px 30px 2px rgba(32, 25, 67, 0.02);
 }
 
 @layer base {
@@ -106,5 +115,141 @@ body {
 
   .animate-enter {
     animation: enter 0.2s ease-out forwards;
+  }
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.custom-button {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.custom-button:hover {
+  transform: scale(1.02);
+}
+
+.custom-button:active {
+  transform: scale(0.98);
+}
+
+.custom-button:focus {
+  outline: none;
+}
+
+//DISABLE AUTO ZOOM IN
+@media screen and (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+// VALIDATION ERROR STYLING
+input.ng-touched.ng-invalid,
+select.ng-touched.ng-invalid {
+  border: 1px solid lightcoral !important;
+}
+// Remove default arrows in type number
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+// HORIZONTAL LOADER
+.loader-container {
+  width: 100%;
+  height: 3px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loader-bar {
+  width: 0%;
+  height: 100%;
+  background-color: #3b82f6; /* or your primary color */
+  animation: loadAnimation 1s infinite;
+}
+
+@keyframes loadAnimation {
+  0% {
+    width: 0%;
+    left: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+// badge
+[class^="badge"] {
+  font-size: 12px;
+  padding: 3px 12px;
+  border-radius: 40px;
+  max-height: 24px;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  .material-icons {
+    font-size: 10px;
+    margin-right: 3px;
+    margin-bottom: 2px;
+  }
+}
+
+.badge {
+  &-warning,
+  &-notUploaded,
+  &-inactive,
+  &-in-progress,
+  &-closed,
+  &-escalated,
+  &-pending {
+    color: orange;
+    background: rgba(242, 187, 98, 0.25);
+  }
+
+  &-success,
+  &-active,
+  &-settled,
+  &-completed,
+  &-refunded,
+  &-resolved,
+  &-inflow,
+  &-credit,
+  &-approved {
+    color: green;
+    background: #dcfce7;
+  }
+  &-danger,
+  &-declined,
+  &-failed,
+  &-expired,
+  &-mismatch,
+  &-overdue,
+  &-error {
+    color: #d41370;
+    background: rgba(234, 48, 48, 0.199);
+  }
+  &-intermediate,
+  &-part-payment,
+  &-updated {
+    color: #1269ec;
+    background: #b7d0f7e6;
   }
 }

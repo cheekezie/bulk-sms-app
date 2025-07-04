@@ -1,0 +1,12 @@
+<button
+  class="bg-primary w-full text-white font-medium px-6 py-4 rounded-lg transition-transform
+   transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none {{
+    class
+  }}"
+  [disabled]="disabled || loading"
+  (click)="click()"
+>
+  <span *ngIf="!loading">{{ label }}</span>
+  <i class="fas fa-circle-notch fa-spin ml-3" *ngIf="loading"></i>
+  <ng-content></ng-content>
+</button>
