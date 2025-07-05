@@ -1,0 +1,162 @@
+<app-pay-container [fee]="data ? data.feeObject.title : ''">
+  <div
+    class="max-w-xl mx-auto w-full bg-white rounded-xl shadow-md p-6 space-y-4 border border-gray-200 mt-6"
+    *ngIf="data"
+  >
+    <div class="flex justify-between items-end flex-wrap">
+      <div class="text-dark mb-2">
+        <h3 class="text-xl font-semibold">Invoice</h3>
+        <p class="text-sm text-gray-500">{{ data.invoice.transactionRef }}</p>
+      </div>
+      <span
+        class="px-3 py-2 text-sm mb-2 rounded-2xl badge badge-{{
+          data.invoice.paymentStatus
+        }}"
+      >
+        {{ data.invoice.paymentStatus }}
+      </span>
+    </div>
+
+    <div class="border-t pt-2 border-b">
+      <div class="flex gap-2 mb-2 flex-wrap">
+        <span
+          class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
+          ># {{ arrearsText }}</span
+        >
+
+        <span
+          class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
+          ># {{ data.invoice.paymentChannel }}</span
+        >
+      </div>
+      <div class="flex justify-between mb-3">
+        <p class="text-dark text-sm">Payer:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ payerName | titlecase }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3" *ngIf="data.invoice.regNumber">
+        <p class="text-dark text-sm">Reg Number:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.invoice.regNumber | titlecase }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3" *ngIf="data.invoice.payerRegId">
+        <p class="text-dark text-sm">Payer ID:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.invoice.payerRegId | titlecase }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3">
+        <p class="text-dark text-sm">Fee:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.feeObject.title | titlecase }}
+        </p>
+      </div>
+      <div class="flex justify-between mb-3" *ngIf="data.classObject">
+        <p class="text-dark text-sm">Class:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.classObject.name }}
+        </p>
+      </div>
+
+      <div
+        class="flex justify-between mb-3"
+        *ngIf="data.invoice.studentAcademicYear"
+      >
+        <p class="text-dark text-sm">Academic Year:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.invoice.studentAcademicYear | addspace | ordinal }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3" *ngIf="data?.student?.department">
+        <p class="text-dark text-sm">Department:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.student.department.name }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3" *ngIf="data?.student?.program">
+        <p class="text-dark text-sm">Program:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.student.program.name }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3">
+        <p class="text-dark text-sm">Session:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.invoice.session }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3">
+        <p class="text-dark text-sm">{{ termData.type | titlecase }}:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ termData.title | titlecase }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3">
+        <p class="text-dark text-sm">Amount:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.invoice.transactionAmount | naira }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3">
+        <p class="text-dark text-sm">Amount Paid So Far:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.amountPaid | naira }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3">
+        <p class="text-dark text-sm">Amount Due Now:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ amountToPay | naira }}
+        </p>
+      </div>
+
+      <div class="flex justify-between mb-3" *ngIf="data.invoice.dateConfirmed">
+        <p class="text-dark text-sm">Date Completed:</p>
+        <p class="text-gray-700 text-sm text-right font-semibold">
+          {{ data.invoice.dateConfirmed | date }}
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:justify-center sm:gap-4 gap-2">
+      <!-- Show this only if payment received -->
+      <button
+        class="custom-button border border-black text-black !bg-none"
+        (click)="onDownload()"
+      >
+        <span class="material-symbols-outlined mr-3"> download </span>
+        {{ data.invoice.paymentCompleted ? "Receipt" : "Invoice" }}
+      </button>
+
+      <button
+        class="custom-button text-white bg-primary"
+        *ngIf="canPay"
+        (click)="toggleCheckout()"
+      >
+        <span class="material-symbols-outlined mr-3"> send </span>
+        Send Money
+      </button>
+    </div>
+  </div>
+</app-pay-container>
+
+<app-checkout
+  [isOpen]="isCheckoutOpen"
+  [account]="accountDetails"
+  [amount]="amountToPay"
+  [checkingPayment]="checkingPayment"
+  (close)="toggleCheckout()"
+  (checkPayment)="onCheckPayment()"
+/>

@@ -1,6 +1,8 @@
-import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser, Location } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { TermEnums } from '../model/enums';
+import { Alert } from '../helpers/alert.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,11 @@ export class UtilService {
   private previousUrl: string | null = null;
   private currentUrl: string | null = null;
   private history: string[] = [];
-  constructor(private location: Location, private router: Router) {
+  constructor(
+    private location: Location,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.history.push(event.urlAfterRedirects);
@@ -28,19 +34,14 @@ export class UtilService {
   }
 
   goBack() {
-    const previousUrl = this.getPreviousUrl();
-    const currentUrl = this.router.url;
-
-    if (previousUrl && previousUrl !== currentUrl) {
+    if (isPlatformBrowser(this.platformId) && window.history.length > 1) {
       this.location.back();
     } else {
-      this.router.navigate(['/']); // Or your fallback page
+      this.router.navigate(['/']);
     }
   }
-  getTermData(
-    term: 'firstTerm' | 'secondTerm' | 'thirdTerm',
-    schoolType: string
-  ) {
+
+  getTermData(term: TermEnums, schoolType: string) {
     const isTertiary = schoolType === 'tertiary';
 
     const labels = {
@@ -62,5 +63,32 @@ export class UtilService {
     };
 
     return labels[term] || null;
+  }
+
+  cleanObject<T extends object>(obj: T): Partial<T> {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+      if (
+        value !== null &&
+        value !== undefined &&
+        !(typeof value === 'string' && value.trim() === '')
+      ) {
+        acc[key as keyof T] = value;
+      }
+      return acc;
+    }, {} as Partial<T>);
+  }
+
+  copy(value: string | number = '') {
+    const val = value.toString();
+    navigator.clipboard
+      .writeText(val)
+      .then(() => {
+        Alert.show({
+          description: `${val} copied to clipboard`,
+          type: 'info',
+          position: 'bottom-center',
+        });
+      })
+      .catch((err) => {});
   }
 }

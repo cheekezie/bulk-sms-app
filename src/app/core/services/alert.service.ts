@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface AlertDataI {
-  type: 'success' | 'error' | 'warning';
+  type: 'success' | 'error' | 'warning' | 'info' | 'alternate';
   title?: string;
   description: string;
   position?:
@@ -11,7 +11,8 @@ export interface AlertDataI {
     | 'top-left'
     | 'top-right'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'bottom-center';
 }
 
 @Injectable({ providedIn: 'root' })

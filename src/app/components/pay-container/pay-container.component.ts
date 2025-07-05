@@ -25,6 +25,7 @@ export class PayContainerComponent implements OnInit {
   @Output() back = new EventEmitter();
   @Input() fee: string | undefined;
   @Input() payerName: string;
+  @Input() customBack: boolean;
   private tenantService = inject(TenantService);
   constructor(
     private localStore: LocalStorageService,
@@ -45,8 +46,11 @@ export class PayContainerComponent implements OnInit {
   }
 
   goBack() {
-    this.back.emit();
+    if (this.customBack) {
+      this.back.emit();
+      return;
+    }
 
-    // this.util.goBack()
+    this.util.goBack();
   }
 }

@@ -1,11 +1,12 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { RequestService } from './request.service';
 import {
   FeeI,
   FeesDataResponse,
   InitiatePaymentResponse,
+  QueryPaymentI,
   ScheduleI,
   SchoolSearchResI,
 } from '../model/payment.model';
@@ -18,7 +19,14 @@ import { StudentI } from '../model/student.mode';
   providedIn: 'root',
 })
 export class PaymentService {
+  private initSubject = new BehaviorSubject<any>(null);
+  invoiceInit$ = this.initSubject.asObservable();
+
   constructor(private reqS: RequestService) {}
+
+  setInvoiceInitData(data: InitiatePaymentResponse) {
+    this.initSubject.next(data);
+  }
 
   public searchSchool(search: string): Observable<{ data: SchoolSearchResI }> {
     const params = new HttpParams({
@@ -88,5 +96,14 @@ export class PaymentService {
         _id: string;
       };
     }>(PaymentApi.getSchedule, params);
+  }
+
+  public invoiceDetails(ref: string): Observable<QueryPaymentI> {
+    const params = new HttpParams({
+      fromObject: {
+        ref,
+      },
+    });
+    return this.reqS.get(PaymentApi.queryPayment, params);
   }
 }

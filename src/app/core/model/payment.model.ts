@@ -11,6 +11,7 @@ import {
   PaymentStatusEnums,
   SettlementStatusEnums,
   SystemType,
+  TermEnums,
   VirtualAccTypeEnums,
 } from './enums';
 import {
@@ -77,7 +78,7 @@ export interface Invoice {
   organization: BusinessI;
   calendarYear: string;
   session: string;
-  term: string;
+  term: TermEnums;
   email: string;
   payerRegId: string;
   phoneNumber: string;
@@ -136,23 +137,14 @@ export interface VirtualAccountDetailsI {
 }
 
 export interface InitiatePaymentResponse {
-  transferOption?: number;
   arrears: boolean;
-  paymentChannel: string;
   paymentCompleted: boolean;
-  payCheckout: {
-    checkoutUrl: string;
-    accountNumber: string;
-    accountName: string;
-    bankName: string;
-  };
   accountDetails: VirtualAccountDetailsI;
-  qrCode: string;
   invoice: Invoice;
   feeObject: FeeI;
+  student: StudentI;
   classObject: SchoolSubclassI;
   orgObject: BusinessI;
-  student: StudentI;
   walletBalanceAvailable: boolean;
   amountToPay: number;
   walletBalance: number;
@@ -177,4 +169,18 @@ export interface ScheduleI {
   amountToComplete: number;
   variation: number;
   _id: string;
+}
+
+export interface QueryPaymentI {
+  data: {
+    payment: Invoice;
+    student: StudentI;
+    serverCurrentTime: number;
+    walletBalanceAvailable: boolean;
+    amountToPay: number;
+    walletBalance: number;
+    amountPaid: number;
+    classObject: SchoolClassI;
+  };
+  status: string;
 }

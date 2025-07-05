@@ -29,4 +29,12 @@ export const routes: Routes = [
       ),
     data: { title: 'Fees NG | Make Payment' },
   },
+  {
+    path: 'invoice/:ref',
+    loadComponent: () =>
+      import('./pages/invoice/invoice.component').then(
+        (m) => m.InvoiceComponent
+      ),
+    data: { title: 'Fees NG | Invoice' },
+  },
 ];

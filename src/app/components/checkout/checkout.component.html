@@ -1,0 +1,87 @@
+<!-- Checkout Modal Wrapper -->
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 z-10 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+  (click)="onClose()"
+>
+  <div
+    class="bg-white rounded-xl shadow-lg p-6 max-w-md w-full mx-4 relative pt-[50px]"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Top-right Close Icon -->
+    <button
+      class="absolute top-2 right-6 text-gray-500 hover:text-gray-700 text-[28px]"
+      (click)="onClose()"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+
+    <!-- Modal Content -->
+    <div class="space-y-4 mt-2">
+      <h6 class="text-[16px] text-black mb-4 text-center font-semibold">
+        Bank Transfer
+      </h6>
+      <div class="flex justify-between">
+        <p class="text-sm text-gray-600 w-full">Account Name:</p>
+
+        <p class="text-sm font-medium text-gray-800 text-right truncate pl-8">
+          {{ account?.accountName | titlecase }} swiss kidsd
+        </p>
+      </div>
+      <div class="flex justify-between">
+        <p class="text-sm text-gray-600">Account No.:</p>
+        <p class="text-sm font-medium text-gray-800 flex items-center">
+          {{ account?.accountNumber }}
+
+          <button class="ml-2 active:scale-[0.98]" (click)="copy('acc_no')">
+            <span class="material-symbols-outlined text-grey">
+              content_copy
+            </span>
+          </button>
+        </p>
+      </div>
+
+      <div class="flex justify-between">
+        <p class="text-sm text-gray-600">Bank:</p>
+        <p class="text-sm font-medium text-gray-800 flex">
+          {{ account?.bankName }}
+          <img [src]="bankLogo" class="w-[20px] ml-2" alt="" *ngIf="bankLogo" />
+        </p>
+      </div>
+      <div class="flex justify-between">
+        <p class="text-sm text-gray-600">Amount:</p>
+        <p class="text-sm font-medium text-gray-800 flex items-center">
+          {{ amount | naira }}
+          <button class="ml-2 active:scale-[0.98]" (click)="copy('amount')">
+            <span class="material-symbols-outlined text-grey">
+              content_copy
+            </span>
+          </button>
+        </p>
+      </div>
+
+      <div class="text-gray-400 text-center text-sm">
+        Please proceed to transfer the exact amount at once to the account
+        details
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="mt-8 text-center">
+      <button
+        class="w-full bg-primary text-primary px-4 py-2 text-white transition rounded-md"
+        (click)="onCheckPayment()"
+        [disabled]="checkingPayment"
+      >
+        <span *ngIf="!checkingPayment"> I have made this payment</span>
+        <span *ngIf="checkingPayment">checking...</span>
+      </button>
+    </div>
+
+    <!-- Footer note -->
+    <p class="text-xs text-gray-400 text-center mt-4">
+      Powered by Attesta Global
+    </p>
+  </div>
+</div>

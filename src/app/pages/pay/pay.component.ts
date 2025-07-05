@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -7,18 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { PayContainerComponent } from 'src/app/components/pay-container/pay-container.component';
-import { CustomPipeModule } from 'src/app/core/pipes/pipe.module';
-import { PaymentService } from 'src/app/core/services/payment.service';
-import { PayerDataComponent } from '../payer-data/payer-data.component';
-import { UtilService } from 'src/app/core/services/util.service';
-import { FormInputsModule } from 'src/app/components/form-inputs/form-inputs.module';
-import { UiModule } from 'src/app/components/ui/ui.module';
-import { Semesters, Terms } from 'src/app/core/data/constants.data';
-import { FeeI, ScheduleI } from 'src/app/core/model/payment.model';
-import { LocalStorageService } from 'src/app/core/services/localstore.service';
-import { SessionI } from 'src/app/core/model/business.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   catchError,
   debounceTime,
@@ -27,9 +16,20 @@ import {
   Subscription,
   switchMap,
 } from 'rxjs';
-import { StudentI } from 'src/app/core/model/student.mode';
-import { PaymentInitEnums } from 'src/app/core/model/enums';
+import { FormInputsModule } from 'src/app/components/form-inputs/form-inputs.module';
+import { PayContainerComponent } from 'src/app/components/pay-container/pay-container.component';
 import { PaymentScheduleComponent } from 'src/app/components/payment-schedule/payment-schedule.component';
+import { UiModule } from 'src/app/components/ui/ui.module';
+import { Semesters, Terms } from 'src/app/core/data/constants.data';
+import { Loading } from 'src/app/core/helpers/loading.helper';
+import { SessionI } from 'src/app/core/model/business.model';
+import { PaymentInitEnums } from 'src/app/core/model/enums';
+import { FeeI, ScheduleI } from 'src/app/core/model/payment.model';
+import { StudentI } from 'src/app/core/model/student.mode';
+import { CustomPipeModule } from 'src/app/core/pipes/pipe.module';
+import { LocalStorageService } from 'src/app/core/services/localstore.service';
+import { PaymentService } from 'src/app/core/services/payment.service';
+import { UtilService } from 'src/app/core/services/util.service';
 
 @Component({
   selector: 'app-pay',
@@ -79,6 +79,8 @@ export class PayComponent implements OnInit, OnDestroy {
     private paymentS: PaymentService,
     private util: UtilService,
     private fb: FormBuilder,
+    private router: Router,
+
     private localStore: LocalStorageService
   ) {
     this.form = this.fb.group({
@@ -210,17 +212,23 @@ export class PayComponent implements OnInit, OnDestroy {
   onSelectMethod(method: string) {
     if (this.studentFee) {
       const data = {
-        ...this.form.value,
         paymentChannel: method,
         scheduleId: this.scheduleId,
+        email: this.form.value.email,
+        phoneNumber: this.form.value.phoneNumber,
         scheduleDetailsId: this.selectedSchedule._id,
-        closed: true,
+        closed: 'true',
       };
       this.onGenPaymentInvoice(data);
       return;
     }
 
-    const data = { ...this.form.value, paymentChannel: method, closed: false };
+    const data = {
+      ...this.form.value,
+      paymentChannel: method,
+      feeId: this.fee._id,
+      closed: 'false',
+    };
     this.onGenPaymentInvoice(data);
   }
 
@@ -242,14 +250,20 @@ export class PayComponent implements OnInit, OnDestroy {
   }
 
   onGenPaymentInvoice(data: object) {
-    this.paymentS.initiatePayment(data).subscribe({
+    Loading.show({ description: 'generating your payment invoice' });
+    const payload = this.util.cleanObject(data);
+    this.paymentS.initiatePayment(payload).subscribe({
       next: (res) => {
-        this.loading = false;
+        Loading.hide();
         if (res.data.status === PaymentInitEnums.UPTODATE) {
+          return;
         }
+        const data = { ...res.data, student: this.verifiedStudent as any };
+        this.paymentS.setInvoiceInitData(data);
+        this.router.navigate(['invoice', res.data.invoice.transactionRef]);
       },
       error: () => {
-        this.loading = false;
+        Loading.hide();
       },
     });
   }
