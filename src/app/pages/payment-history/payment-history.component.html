@@ -1,0 +1,142 @@
+<app-pay-container [school]="school">
+  <h3 class="text-lg font-semibold text-dark text-center mb-4">
+    Payment History
+  </h3>
+
+  <h3 class="text-[14px] font-semibold text-dark text-center">
+    {{ payerName }}
+  </h3>
+  <p class="text-[14px] text-dark text-center">{{ regNumber }}</p>
+
+  <div class="mt-8">
+    <app-loader [show]="loading" />
+
+    <!-- Wrapper with padding -->
+    <div class="w-full mb-4 px-4">
+      <!-- Clickable fake input field -->
+      <div
+        role="button"
+        tabindex="0"
+        (click)="onToggleModal()"
+        class="relative cursor-pointer w-full min-h-[60px] pl-4 pr-24 py-3.5 rounded-[10px] shadow-md border border-gray-400 bg-white text-gray-800 flex items-center justify-between focus:outline-none"
+      >
+        <span class="text-gray-500 hover: hidden sm:block"
+          >Search here to check your payment...</span
+        >
+        <div
+          class="left-1 sm:left-[initial] absolute top-1/2 right-1 transform -translate-y-1/2 bg-primary text-white px-8 py-3 rounded-[10px] text-sm font-medium"
+        >
+          Start Checking
+        </div>
+      </div>
+    </div>
+
+    <app-empty [show]="isEmpty" [message]="'No payment data found'" />
+
+    <div class="grid lg:grid-cols-2 gap-4 mt-8">
+      <div
+        (click)="onItemSelect(data)"
+        *ngFor="let data of result"
+        class="relative cursor-pointer bg-white rounded-2xl shadow-md p-4 space-y-4 w-full hover:shadow-lg transition-shadow"
+      >
+        <div class="flex">
+          <div class="flex items-center gap-3 relative mb-2 w-full flex-wrap">
+            <div>
+              <h6 class="font-semibold text-gray-800">
+                {{ data.fee.title | titlecase }}
+              </h6>
+              <h6 class="font-semibold text-gray-600 text-[14px]">
+                {{ data.transactionAmount | naira }}
+              </h6>
+            </div>
+          </div>
+
+          <div>
+            <span class="badge-{{ data.paymentStatus }}">
+              {{ data.paymentStatus }}
+            </span>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mb-2 flex-wrap">
+          <span
+            class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
+            ># {{ data.session }}</span
+          >
+          <span
+            class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
+            ># {{ data.term }}</span
+          >
+
+          <span
+            class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium flex items-center"
+          >
+            <span class="material-symbols-outlined mr-2 text-[16px]">
+              alarm
+            </span>
+            {{ data.dateConfirmed || data.dateGenerated | date }}
+          </span>
+        </div>
+
+        <div
+          class="border-2 border-dashed border-gray-200 rounded-xl p-3 grid md:grid-cols-2"
+        >
+          <div class="border-r-gray-200 border-r pr-0 md:pr-3">
+            <div class="text-xs text-gray-400 font-bold mb-1">
+              Amount Expected
+            </div>
+            <div class="text-sm font-medium text-gray-800">
+              {{ data.transactionAmount | naira }}
+            </div>
+          </div>
+
+          <div class="border-r-gray-200 pl-0 md:pl-3">
+            <div class="text-xs text-gray-400 font-bold mb-1">
+              Amount Paid so far
+            </div>
+            <div class="text-sm font-medium text-gray-800">
+              {{ data.toalAmountPaid | naira }}
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-4 justify-center flex-wrap">
+          <!-- Download Receipt/Invoice -->
+          <button
+            class="flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 text-sm rounded-full shadow-sm hover:bg-blue-200 transition"
+            (click)="download($event, data)"
+          >
+            <span class="material-symbols-outlined">
+              vertical_align_bottom
+            </span>
+            {{ data.paymentCompleted ? "Receipt" : "Invoice" }}
+          </button>
+
+          <!-- Green Pay Now Button -->
+          <button
+            class="flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm shadow-sm hover:bg-green-200 transition"
+            *ngIf="canPayStatus.includes(data.paymentStatus)"
+            (click)="payNow($event, data)"
+          >
+            <span class="material-symbols-outlined"> east </span>
+            Pay Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-pay-container>
+
+<app-check-payment
+  [isOpen]="isModalOpen"
+  (closeModal)="onToggleModal()"
+  (selectStudent)="onStudentSelect($event)"
+></app-check-payment>
+
+<!-- <app-checkout
+  [isOpen]="isCheckoutOpen"
+  [account]="accountDetails"
+  [amount]="amountToPay"
+  [checkingPayment]="checkingPayment"
+  (close)="toggleCheckout()"
+  (checkPayment)="onCheckPayment()"
+/> -->

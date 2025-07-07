@@ -22,11 +22,11 @@
       <h6 class="text-[16px] text-black mb-4 text-center font-semibold">
         Bank Transfer
       </h6>
-      <div class="flex justify-between">
+      <div class="grid grid-cols-[95px_1fr] gap-2">
         <p class="text-sm text-gray-600 w-full">Account Name:</p>
 
         <p class="text-sm font-medium text-gray-800 text-right truncate pl-8">
-          {{ account?.accountName | titlecase }} swiss kidsd
+          {{ account?.accountName | titlecase }}
         </p>
       </div>
       <div class="flex justify-between">
@@ -80,7 +80,14 @@
     </div>
 
     <!-- Footer note -->
-    <p class="text-xs text-gray-400 text-center mt-4">
+    <p
+      class="text-xs text-gray-400 text-center mt-4 flex items-center justify-center"
+    >
+      <img
+        src=".../../../../../assets/images/attesta.png"
+        class="w-[20px] mr-2"
+        alt=""
+      />
       Powered by Attesta Global
     </p>
   </div>

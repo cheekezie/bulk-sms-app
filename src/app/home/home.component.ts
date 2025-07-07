@@ -1,3 +1,4 @@
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -8,15 +9,15 @@ import {
   Renderer2,
   inject,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { TenantService } from '../core/services/tenant.service';
+import { Router, RouterModule } from '@angular/router';
 import { SearchModalComponent } from '../components/search-modal/search-modal.component';
-import { ModalComponent } from '../components/modal/modal.component';
+import { LocalStorageService } from '../core/services/localstore.service';
+import { TenantService } from '../core/services/tenant.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SearchModalComponent, CommonModule, ModalComponent],
+  imports: [SearchModalComponent, CommonModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -69,6 +70,8 @@ export class HomeComponent implements OnInit {
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
+    private router: Router,
+    private localStore: LocalStorageService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -124,12 +127,18 @@ export class HomeComponent implements OnInit {
   }
 
   openSearchModal() {
+    // Custom Domain
+    if (this.tenantService.config?.organization) {
+      const tenant = this.tenantService.config?.organization;
+      this.router.navigate(['fees', tenant._id]);
+      this.localStore.setItem('_skool', JSON.stringify(tenant));
+      return;
+    }
+
     this.isModalOpen = true;
-    this.renderer.addClass(document.body, 'no-scroll');
   }
 
   onCloseModal() {
     this.isModalOpen = false;
-    this.renderer.removeClass(document.body, 'no-scroll');
   }
 }

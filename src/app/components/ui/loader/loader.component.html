@@ -8,7 +8,9 @@
   <div *ngSwitchDefault>
     <div class="text-center my-8">
       <i class="fas fa-circle-notch fa-spin text-dark fa-3x"></i>
-      <span class="text-dark mt-2 block text-sm">Loading...</span>
+      <span class="text-dark mt-2 block text-sm">{{
+        message || "Loading..."
+      }}</span>
     </div>
   </div>
 </div>

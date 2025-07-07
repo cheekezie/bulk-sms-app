@@ -29,6 +29,7 @@ export const routes: Routes = [
       ),
     data: { title: 'Fees NG | Make Payment' },
   },
+
   {
     path: 'invoice/:ref',
     loadComponent: () =>
@@ -36,5 +37,14 @@ export const routes: Routes = [
         (m) => m.InvoiceComponent
       ),
     data: { title: 'Fees NG | Invoice' },
+  },
+
+  {
+    path: 'history',
+    loadComponent: () =>
+      import('./pages/payment-history/payment-history.component').then(
+        (m) => m.PaymentHistoryComponent
+      ),
+    data: { title: 'Fees NG | Paynent History' },
   },
 ];

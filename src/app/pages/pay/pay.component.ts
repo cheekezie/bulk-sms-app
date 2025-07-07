@@ -21,9 +21,10 @@ import { PayContainerComponent } from 'src/app/components/pay-container/pay-cont
 import { PaymentScheduleComponent } from 'src/app/components/payment-schedule/payment-schedule.component';
 import { UiModule } from 'src/app/components/ui/ui.module';
 import { Semesters, Terms } from 'src/app/core/data/constants.data';
+import { Alert } from 'src/app/core/helpers/alert.helper';
 import { Loading } from 'src/app/core/helpers/loading.helper';
 import { SessionI } from 'src/app/core/model/business.model';
-import { PaymentInitEnums } from 'src/app/core/model/enums';
+import { FeeCycleEnums, PaymentInitEnums } from 'src/app/core/model/enums';
 import { FeeI, ScheduleI } from 'src/app/core/model/payment.model';
 import { StudentI } from 'src/app/core/model/student.mode';
 import { CustomPipeModule } from 'src/app/core/pipes/pipe.module';
@@ -51,6 +52,7 @@ export class PayComponent implements OnInit, OnDestroy {
   form: FormGroup;
   currStep = 1;
   loading = false;
+  cycleEnums = FeeCycleEnums;
   methods = [
     {
       method: 'transfer',
@@ -60,12 +62,13 @@ export class PayComponent implements OnInit, OnDestroy {
     },
     {
       method: 'payattitude',
-      active: true,
-      name: 'Pay with Phone Number',
+      active: false,
+      name: 'Phone Number',
       image: '../../../assets/images/payattitude-logo.png',
     },
   ];
   terms: { code: string; title: string }[] = [];
+  termLabel = 'Term';
   fee: FeeI;
   sessions: SessionI[] = [];
   searchSub$: Subscription;
@@ -191,6 +194,7 @@ export class PayComponent implements OnInit, OnDestroy {
   handleTermArr() {
     if (this.fee.organization.schoolType === 'tertiary') {
       this.terms = Semesters;
+      this.termLabel = 'Semester';
     } else {
       this.terms = Terms;
     }
@@ -209,7 +213,16 @@ export class PayComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelectMethod(method: string) {
+  onSelectMethod(item: any) {
+    const { method, active } = item;
+    if (!active) {
+      Alert.show({
+        type: 'info',
+        position: 'bottom-center',
+        description: 'This service is not available. Pay with bank transfer',
+      });
+      return;
+    }
     if (this.studentFee) {
       const data = {
         paymentChannel: method,
@@ -243,7 +256,8 @@ export class PayComponent implements OnInit, OnDestroy {
           this.scheduleId = res.data._id;
           this.currStep++;
         },
-        error: () => {
+        error: (err) => {
+          Alert.show({ type: 'error', description: err?.error?.message });
           this.loading = false;
         },
       });
@@ -256,13 +270,24 @@ export class PayComponent implements OnInit, OnDestroy {
       next: (res) => {
         Loading.hide();
         if (res.data.status === PaymentInitEnums.UPTODATE) {
+          Alert.show({
+            type: 'info',
+            description:
+              'Your payment is up to date. You have nothing to pay at this time for this fee',
+          });
           return;
         }
+
+        if (res.data.status === PaymentInitEnums.WALLETCOMPLETED) {
+          Alert.show({ type: 'info', description: res.data.message });
+        }
+
         const data = { ...res.data, student: this.verifiedStudent as any };
         this.paymentS.setInvoiceInitData(data);
         this.router.navigate(['invoice', res.data.invoice.transactionRef]);
       },
-      error: () => {
+      error: (err) => {
+        Alert.show({ type: 'error', description: err?.error?.message });
         Loading.hide();
       },
     });

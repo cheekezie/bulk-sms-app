@@ -1,6 +1,8 @@
 export const PaymentApi = {
   searchSchool: 'org/all-public',
+  searchStudent: 'student/search',
   init: 'payment/init-new',
+  myTransactions: 'payment/my-transaction',
   getSchedule: 'payment/new-payment-schedule',
   queryPayment: 'payment/payment-qr',
   adminUserList: 'account/admin',

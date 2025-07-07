@@ -8,7 +8,12 @@
         Back
       </button>
 
-      <img [src]="logo" class="w-[100px]" alt="Logo" />
+      <img
+        [src]="logo"
+        class="max-w-[100px] cursor-pointer"
+        alt="Logo"
+        (click)="goHome()"
+      />
     </div>
     <app-sidebar-vector></app-sidebar-vector>
   </section>
@@ -17,13 +22,16 @@
     <div class="max-w-4xl mx-auto">
       <div class="flex items-center mb-4 justify-center">
         <img
-          [src]="school?.logo"
-          *ngIf="school?.logo"
+          [src]="schoolData.logo"
+          *ngIf="schoolData.logo"
           class="w-[30px] mr-3"
           alt="school logo"
         />
-        <h6 class="text-xl font-bold truncate text-black" *ngIf="school">
-          {{ school.organizationName | titlecase }}
+        <h6
+          class="text-xl font-bold truncate text-black"
+          *ngIf="schoolData.name"
+        >
+          {{ schoolData.name | titlecase }}
         </h6>
       </div>
       <h6

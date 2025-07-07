@@ -28,6 +28,7 @@ export interface BusinessI {
   updatedAt: string;
   kycDocument: { logo: string };
   mySchoolPortalId: string;
+  logo: string;
 
   kycDocumentStatus: kycDocumentStatusEnums;
   activated: boolean;

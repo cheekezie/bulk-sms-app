@@ -53,11 +53,12 @@
 
             <div *ngIf="externalFee">
               <app-select
-                label="Term"
+                [label]="termLabel"
                 formControlName="term"
                 [data]="terms"
                 valueKey="code"
                 labelKey="title"
+                *ngIf="fee.cycle === cycleEnums.TERMLY"
               />
 
               <app-select
@@ -83,16 +84,12 @@
           <p class="text-lg text-dark text-center">Select a schedule to pay</p>
           <ng-container *ngTemplateOutlet="back"> </ng-container>
           <div class="pt-2">
-            <div
-              class="bg-white rounded-2xl shadow-md p-4 space-y-4 w-full hover:shadow-lg transition-shadow mb-4"
-              *ngFor="let item of scheduleItems"
-              (click)="onSelectSchedule(item)"
-            >
+            <ng-container *ngFor="let item of scheduleItems">
               <app-payment-schedule
                 [data]="item"
                 (itemSelect)="onSelectSchedule($event)"
               />
-            </div>
+            </ng-container>
           </div>
         </ng-container>
 
@@ -102,7 +99,7 @@
           <div class="pt-2">
             <div
               *ngFor="let item of methods"
-              (click)="onSelectMethod(item.method)"
+              (click)="onSelectMethod(item)"
               class="bg-white shadow-md cursor-pointer rounded-xl p-4 mb-6 flex items-center space-x-4 hover:shadow-lg transition-shadow"
             >
               <div
@@ -119,10 +116,15 @@
                 />
               </div>
 
-              <div class="flex-1">
-                <p class="text-base font-semibold text-gray-800">
+              <div class="flex-1 flex flex-wrap">
+                <p class="text-base font-semibold text-gray-800 mr-2">
                   {{ item.name | titlecase }}
                 </p>
+                <span
+                  class="bg-blue-200 text-blue-600 text-xs px-3 py-1 rounded-full font-medium"
+                  *ngIf="!item.active"
+                  >coming soon</span
+                >
               </div>
 
               <div class="text-gray-400">

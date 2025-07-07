@@ -28,10 +28,19 @@ export interface SchoolSearchResI {
   orgCount: number;
   organizations: SearchSchoolI[];
 }
+export interface StudentSearchResI {
+  page: number;
+  pages: number;
+  count: number;
+  data: StudentI[];
+}
 
 export interface SearchSchoolI {
   logo: string;
   organizationName: string;
+  kycDocument: {
+    logo: string;
+  };
   _id: string;
 }
 
@@ -66,7 +75,7 @@ export interface FeeI {
   updatedAt: string;
 }
 
-export interface Invoice {
+export interface InvoiceI {
   _id: string;
   studentId: string;
   regNumber: string;
@@ -140,7 +149,7 @@ export interface InitiatePaymentResponse {
   arrears: boolean;
   paymentCompleted: boolean;
   accountDetails: VirtualAccountDetailsI;
-  invoice: Invoice;
+  invoice: InvoiceI;
   feeObject: FeeI;
   student: StudentI;
   classObject: SchoolSubclassI;
@@ -173,7 +182,7 @@ export interface ScheduleI {
 
 export interface QueryPaymentI {
   data: {
-    payment: Invoice;
+    payment: InvoiceI;
     student: StudentI;
     serverCurrentTime: number;
     walletBalanceAvailable: boolean;
@@ -183,4 +192,13 @@ export interface QueryPaymentI {
     classObject: SchoolClassI;
   };
   status: string;
+}
+
+export interface MyTransactionsI {
+  page: number;
+  pages: number;
+  paymentCounts: number;
+  totalTransactionAmount: number;
+  studentName: string;
+  payments: InvoiceI[];
 }

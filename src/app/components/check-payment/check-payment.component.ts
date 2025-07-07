@@ -20,32 +20,34 @@ import {
   Subscription,
   switchMap,
 } from 'rxjs';
-import { SearchSchoolI } from 'src/app/core/model/payment.model';
+import { InvoiceI, SearchSchoolI } from 'src/app/core/model/payment.model';
 import { StudentI } from 'src/app/core/model/student.mode';
+import { CustomPipeModule } from 'src/app/core/pipes/pipe.module';
 import { LocalStorageService } from 'src/app/core/services/localstore.service';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { TenantService } from 'src/app/core/services/tenant.service';
 
 @Component({
-  selector: 'app-search-modal',
+  selector: 'app-check-payment',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './search-modal.component.html',
-  styleUrl: './search-modal.component.scss',
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, CustomPipeModule],
+  templateUrl: './check-payment.component.html',
+  styleUrl: './check-payment.component.scss',
 })
-export class SearchModalComponent implements OnInit, OnDestroy {
+export class CheckPaymentComponent implements OnInit, OnDestroy {
   @Input() isOpen = false;
   @Output() closeModal = new EventEmitter();
+  @Output() selectStudent = new EventEmitter();
   schoolResults: SearchSchoolI[] = [];
   studentResults: StudentI[] = [];
-  schoolSearchCtrl = new FormControl('');
+  refSearchCtrl = new FormControl('');
   studentSearchCtrl = new FormControl('');
   searching = false;
   isEmpty = false;
   searchSub$: Subscription;
   private schoolLookup$: Subject<void> = new Subject();
-  view: 'school' | 'student' = 'school';
-
+  view: 'student' | 'reference' | 'account_number' = 'student';
+  result: InvoiceI[] = [];
   constructor(
     private paymentS: PaymentService,
     private router: Router,
@@ -59,43 +61,7 @@ export class SearchModalComponent implements OnInit, OnDestroy {
     return this.tenant.config.isDefault;
   }
   ngOnInit(): void {
-    this.renderer.addClass(this.document.body, 'no-scroll');
-
-    this.searchSub$ = this.schoolSearchCtrl.valueChanges
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        switchMap((text: string | null) => {
-          const trimmed = text?.trim() ?? '';
-
-          // 🔹 Case: empty input
-          if (trimmed.length < 2) {
-            this.searching = false;
-            this.schoolResults = []; // ✅ clear results immediately
-            return of(null); // ✅ skip API call
-          }
-
-          // 🔹 Case: valid input
-          this.searching = true;
-          this.isEmpty = false;
-          return this.paymentS.searchSchool(trimmed).pipe(
-            catchError((err) => {
-              console.error('Search failed:', err);
-              this.schoolResults = [];
-              this.searching = false;
-              this.isEmpty = true;
-              return of(null);
-            })
-          );
-        })
-      )
-      .subscribe((results) => {
-        if (results?.data?.organizations) {
-          this.schoolResults = results.data.organizations;
-          this.isEmpty = !results.data.organizations;
-        }
-        this.searching = false;
-      });
+    this.renderer.addClass(this.document?.body, 'no-scroll');
 
     // Search Student With Reg Number
     this.searchSub$ = this.studentSearchCtrl.valueChanges
@@ -114,11 +80,12 @@ export class SearchModalComponent implements OnInit, OnDestroy {
 
           // 🔹 Case: valid input
           this.searching = true;
+          this.isEmpty = false;
           return this.paymentS.searchStudents(trimmed).pipe(
             catchError((err) => {
-              console.error('Search failed:', err);
               this.studentResults = [];
               this.searching = false;
+              this.isEmpty = true;
               return of(null);
             })
           );
@@ -127,10 +94,13 @@ export class SearchModalComponent implements OnInit, OnDestroy {
       .subscribe((results) => {
         if (results?.data?.data) {
           this.studentResults = results.data.data;
+          this.isEmpty = !results?.data.data.length;
         }
         this.searching = false;
       });
   }
+
+  onItemSelect(item: any) {}
 
   onSelectSchool(school: SearchSchoolI) {
     this.router.navigate(['fees', school._id]);
@@ -138,8 +108,8 @@ export class SearchModalComponent implements OnInit, OnDestroy {
   }
 
   onSelectStudent(student: StudentI) {
-    this.router.navigate(['fees', student.organization._id]);
-    this.localStore.setItem('_skool', JSON.stringify(student.organization));
+    this.selectStudent.emit(student);
+    this.onClose();
   }
 
   onClose() {
@@ -148,6 +118,6 @@ export class SearchModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.searchSub$?.unsubscribe();
-    this.renderer.removeClass(this.document.body, 'no-scroll');
+    this.renderer.removeClass(this.document?.body, 'no-scroll');
   }
 }

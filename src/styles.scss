@@ -196,7 +196,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 // badge
-[class^="badge"] {
+.badge {
   font-size: 12px;
   padding: 3px 12px;
   border-radius: 40px;
@@ -219,6 +219,7 @@ input[type="number"]::-webkit-outer-spin-button {
   &-closed,
   &-escalated,
   &-pending {
+    @extend .badge;
     color: orange;
     background: rgba(242, 187, 98, 0.25);
   }
@@ -232,6 +233,7 @@ input[type="number"]::-webkit-outer-spin-button {
   &-inflow,
   &-credit,
   &-approved {
+    @extend .badge;
     color: green;
     background: #dcfce7;
   }
@@ -242,12 +244,14 @@ input[type="number"]::-webkit-outer-spin-button {
   &-mismatch,
   &-overdue,
   &-error {
+    @extend .badge;
     color: #d41370;
     background: rgba(234, 48, 48, 0.199);
   }
   &-intermediate,
   &-part-payment,
   &-updated {
+    @extend .badge;
     color: #1269ec;
     background: #b7d0f7e6;
   }

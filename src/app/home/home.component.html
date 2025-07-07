@@ -3,11 +3,15 @@
     <div class="fn-row py-[17px] absolute right-0 left-0 z-[1]">
       <nav class="rounded-[20px] py-4 px-8 flex items-center">
         <div>
-          <img [src]="logo" class="w-[100px]" alt="Logo" />
+          <img [src]="logo" class="max-w-[100px]" alt="Logo" />
         </div>
         <ul class="list-none flex text-white ml-auto">
-          <li class="mr-8 cursor-pointer">Check Payment</li>
-          <li class="mr-8 cursor-pointer">Print Receipt</li>
+          <li class="mr-8 cursor-pointer" routerLink="history">
+            Check Payment
+          </li>
+          <li class="mr-8 cursor-pointer" routerLink="history">
+            Print Receipt
+          </li>
           <li class="cursor-pointer">How it Works</li>
         </ul>
       </nav>
@@ -29,7 +33,6 @@
         <p class="text-white text-[12px] font-light">{{ displayText }}</p>
       </div>
 
-      <!-- Wrapper with padding -->
       <div class="w-full mb-4 px-4">
         <!-- Clickable fake input field -->
         <div

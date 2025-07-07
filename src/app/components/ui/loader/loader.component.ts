@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class LoaderComponent {
   @Input() type: 'bar' | 'circle';
+  @Input() message: string;
   @Input() class = '';
   @Input() show: boolean;
   @Input() color: 'primary' | 'secondary' | 'default';

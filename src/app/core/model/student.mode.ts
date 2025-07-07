@@ -8,7 +8,8 @@ export interface StudentI {
   graduated: boolean;
   gender: string;
   studyYear: number;
-  department: any;
+  department: DepartmentI;
+  profileImage: string;
   class: {
     name: string;
     cod: number;

@@ -1,0 +1,118 @@
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 flex justify-center items-start overflow-y-auto bg-black/40 backdrop-blur-sm z-10"
+  (click)="onClose()"
+>
+  <!-- Modal Content -->
+  <div class="mt-6 mb-6 w-full px-4 flex justify-center">
+    <div
+      class="bg-white rounded-xl shadow-lg p-6 w-full max-w-[900px] h-[calc(100vh-3rem)] flex flex-col"
+      (click)="$event.stopPropagation()"
+    >
+      <h2 class="text-xl font-semibold mb-4">Check Payment</h2>
+
+      <ng-container [ngSwitch]="view">
+        <ng-container *ngSwitchCase="'reference'"> </ng-container>
+
+        <ng-container *ngSwitchCase="'account_number'"> </ng-container>
+
+        <!-- STUDENT & DEFAULT SEARCH VIEW -->
+        <ng-container *ngSwitchDefault>
+          <div class="relative h-[100px] mb-6 bg-gray-300">
+            <input
+              type="text"
+              [formControl]="studentSearchCtrl"
+              placeholder="Search by reg number or student name..."
+              class="w-full h-full pl-14 pr-4 text-xl text-gray-800 border-b-2 border-gray-300 focus:outline-none border-primary bg-transparent placeholder-gray-400"
+            />
+            <ng-container *ngTemplateOutlet="searchIcon"></ng-container>
+          </div>
+
+          <ng-container *ngTemplateOutlet="loading"></ng-container>
+
+          <h2 class="text-xl font-medium mb-4 text-primary">Search Result</h2>
+          <div
+            class="overflow-y-auto flex-1 border border-gray-200 rounded-md p-3 space-y-2"
+          >
+            <div *ngIf="isEmpty" class="my-8">
+              <p class="text-grey text-center text-sm">No student data found</p>
+            </div>
+
+            <div
+              *ngFor="let student of studentResults"
+              (click)="onSelectStudent(student)"
+              class="p-2 border-b pr-8 text-grey flex items-center hover:bg-primary hover:!text-white cursor-pointer rounded-lg transform transition duration-200"
+            >
+              <img
+                [src]="student.profileImage"
+                class="w-8 mr-4 rounded-lg shadow-sm"
+                alt="school logo"
+                *ngIf="student.profileImage"
+              />
+
+              <span
+                class="material-symbols-outlined w-8 h-8 text-[2rem] mr-4 rounded-lg shadow-sm"
+                *ngIf="!student.profileImage"
+              >
+                person
+              </span>
+              <div>
+                <p class="text-sm">{{ student.fullName }}</p>
+                <p class="text-sm">{{ student.regNumber }}</p>
+                <p class="text-sm" *ngIf="student.class">
+                  {{ student.class.name }}
+                </p>
+                <p class="text-sm" *ngIf="student.department">
+                  {{ student.department.name }}
+                </p>
+                <p class="text-sm">
+                  {{ student.organization.organizationName }}
+                </p>
+              </div>
+              <span
+                class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition text-primary"
+              >
+                chevron_right
+              </span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <!-- Modal footer -->
+      <div class="flex justify-end pt-4">
+        <button
+          class="text-black border border-red-500 px-4 py-2 rounded"
+          (click)="onClose()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #searchIcon>
+  <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M11 4a7 7 0 015.196 11.804l4.002 4.002a1 1 0 01-1.414 1.414l-4.002-4.002A7 7 0 1111 4z"
+      />
+    </svg>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="text-center h-4">
+    <i class="fas fa-circle-notch fa-spin text-dark" *ngIf="searching"></i>
+  </div>
+</ng-template>

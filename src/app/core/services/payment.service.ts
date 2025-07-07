@@ -6,9 +6,11 @@ import {
   FeeI,
   FeesDataResponse,
   InitiatePaymentResponse,
+  MyTransactionsI,
   QueryPaymentI,
   ScheduleI,
   SchoolSearchResI,
+  StudentSearchResI,
 } from '../model/payment.model';
 import { FeeApi, PaymentApi } from '../data/api.data';
 import { OrganizationTypeEnums } from '../model/enums';
@@ -35,6 +37,30 @@ export class PaymentService {
       },
     });
     return this.reqS.get(PaymentApi.searchSchool, params);
+  }
+
+  public myInvoices(query: any) {
+    const params = new HttpParams({
+      fromObject: {
+        ...query,
+        pageNumber: 1,
+      },
+    });
+    return this.reqS.get<{ data: MyTransactionsI }>(
+      PaymentApi.myTransactions,
+      params
+    );
+  }
+
+  public searchStudents(
+    keyword: string
+  ): Observable<{ data: StudentSearchResI }> {
+    const params = new HttpParams({
+      fromObject: {
+        keyword,
+      },
+    });
+    return this.reqS.get(PaymentApi.searchStudent, params);
   }
 
   public schoolFeeList(search: string) {
