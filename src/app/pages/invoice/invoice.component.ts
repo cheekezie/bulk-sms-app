@@ -31,6 +31,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   data: InitiatePaymentResponse;
   isCheckoutOpen = false;
   checkingPayment = false;
+  canPayStatus = [PaymentStatusEnums.PENDING, PaymentStatusEnums.PART_PAYMENT];
   constructor(
     private paymentS: PaymentService,
     private title: Title,
@@ -76,10 +77,12 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.paymentS.invoiceInit$.pipe(take(1)).subscribe((data) => {
-      if (data) {
+      if (data && this) {
         this.data = data;
         this.setTitle();
-        this.isCheckoutOpen = true;
+        this.isCheckoutOpen = this.canPayStatus.includes(
+          this.data?.invoice?.paymentStatus
+        );
       } else {
         this.getInvoiceByRef();
       }
@@ -122,7 +125,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
           };
 
           this.data = data as any;
-          this.isCheckoutOpen = true;
+          this.isCheckoutOpen = this.canPayStatus.includes(
+            invoice?.paymentStatus
+          );
           this.checkingPayment = false;
 
           this.setTitle();

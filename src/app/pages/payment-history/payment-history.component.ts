@@ -6,6 +6,7 @@ import { CheckoutComponent } from 'src/app/components/checkout/checkout.componen
 import { PayContainerComponent } from 'src/app/components/pay-container/pay-container.component';
 import { UiModule } from 'src/app/components/ui/ui.module';
 import { Alert } from 'src/app/core/helpers/alert.helper';
+import { Modal } from 'src/app/core/helpers/modal.helper';
 import { BusinessI } from 'src/app/core/model/business.model';
 import { PaymentStatusEnums } from 'src/app/core/model/enums';
 import { InvoiceI } from 'src/app/core/model/payment.model';
@@ -13,6 +14,7 @@ import { StudentI } from 'src/app/core/model/student.mode';
 import { CustomPipeModule } from 'src/app/core/pipes/pipe.module';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { TenantService } from 'src/app/core/services/tenant.service';
+import { HomeComponent } from 'src/app/home/home.component';
 
 @Component({
   selector: 'app-payment-history',
@@ -118,15 +120,15 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   payNow(event: MouseEvent, item: InvoiceI) {
-    event.stopPropagation();
-    // this.router.navigate(['invoice', item.transactionRef]);
+    // event.stopPropagation();
+    this.router.navigate(['invoice', item.transactionRef]);
   }
 
   download(event: MouseEvent, item: InvoiceI) {
     event.stopPropagation();
   }
 
-  onToggleModal() {
+  async onToggleModal() {
     this.isModalOpen = !this.isModalOpen;
   }
 }

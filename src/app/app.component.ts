@@ -6,11 +6,19 @@ import { AlertComponent } from './components/alert/alert.component';
 import { LoadingModalComponent } from './components/loading-modal/loading-modal.component';
 import { Loading } from './core/helpers/loading.helper';
 import { LoadingService } from './core/services/loading.service';
+import { Modal } from './core/helpers/modal.helper';
+import { ModalService } from './core/services/modal.service';
+import { ModalComponent } from './components/modal/modal.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AlertComponent, LoadingModalComponent],
+  imports: [
+    RouterOutlet,
+    AlertComponent,
+    LoadingModalComponent,
+    ModalComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -20,10 +28,12 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private alertService: AlertService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private modalService: ModalService
   ) {
     Alert.registerService(this.alertService); // Register once
     Loading.registerService(this.loadingService); // Register once
+    Modal.registerService(this.modalService); // Register once
   }
 
   ngAfterViewInit() {

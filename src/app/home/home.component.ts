@@ -3,16 +3,20 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
+  Input,
   NgZone,
+  OnChanges,
   OnInit,
   PLATFORM_ID,
   Renderer2,
+  SimpleChanges,
   inject,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SearchModalComponent } from '../components/search-modal/search-modal.component';
 import { LocalStorageService } from '../core/services/localstore.service';
 import { TenantService } from '../core/services/tenant.service';
+import { Modal } from '../core/helpers/modal.helper';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +39,7 @@ export class HomeComponent implements OnInit {
   private textIndex = 0;
   private charIndex = 0;
   private typing = true;
+
   tabs = [
     {
       icon: 'search',
