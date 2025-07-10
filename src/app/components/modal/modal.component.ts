@@ -79,6 +79,7 @@ export class ModalComponent implements AfterViewInit {
     this.isOpen = false;
     this.componentRef?.destroy();
     this.componentRef = null;
+    this.sub?.unsubscribe();
   }
 
   ngOnDestroy() {

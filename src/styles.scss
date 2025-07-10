@@ -256,3 +256,17 @@ input[type="number"]::-webkit-outer-spin-button {
     background: #b7d0f7e6;
   }
 }
+
+.logo-md {
+  max-width: 100px;
+  max-height: 100%;
+  height: 42px;
+  object-fit: contain;
+}
+
+.log-sm {
+  max-width: 80px;
+  max-height: 100%;
+  height: 35px;
+  object-fit: contain;
+}
