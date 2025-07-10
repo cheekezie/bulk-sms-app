@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   envName: 'DEMO',
-  baseUrl: 'https://fees-ng-be-sanbox.onrender.com/api/v2/',
+  baseUrl: 'https://demo.api.fees.ng/api/v2/',
   examportalUrl: 'https://staging.api.examportal.ng/api/v1/school/profile/',
   examportalKey: 'sllwjKQ9UiUb',
   idleTimeAllowed: 300,
