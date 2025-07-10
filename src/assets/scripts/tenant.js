@@ -97,8 +97,8 @@
 
     try {
       const res = await fetch(
-        `http://localhost:45000/api/v2/config/domain?url=${hostname}`
-        //`https://api.prod.fees.ng/api/v2/config/domain?url=${hostname}`
+        // `http://localhost:45000/api/v2/config/domain?url=${hostname}`
+        `https://api.prod.fees.ng/api/v2/config/domain?url=${hostname}`
       );
       if (!res.ok) throw new Error("Failed to fetch domain config");
 
