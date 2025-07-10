@@ -92,7 +92,7 @@ export class SearchModalComponent implements OnInit, OnDestroy {
       .subscribe((results) => {
         if (results?.data?.organizations) {
           this.schoolResults = results.data.organizations;
-          this.isEmpty = !results.data.organizations;
+          this.isEmpty = !results.data.organizations.length;
         }
         this.searching = false;
       });
