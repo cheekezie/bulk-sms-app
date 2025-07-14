@@ -46,8 +46,11 @@ export class SearchModalComponent implements OnInit, OnDestroy, OnChanges {
   isEmpty = false;
   searchSub$: Subscription;
   private schoolLookup$: Subject<void> = new Subject();
-  view: 'school' | 'student' = 'school';
-
+  activeTab = 'school';
+  tabs = [
+    { key: 'school', label: 'Search School' },
+    { key: 'student', label: 'Search with Reg Number' },
+  ];
   constructor(
     private paymentS: PaymentService,
     private router: Router,

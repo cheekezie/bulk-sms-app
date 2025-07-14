@@ -11,7 +11,22 @@
     >
       <h2 class="text-xl font-semibold mb-4">Start Payment</h2>
 
-      <ng-container [ngSwitch]="view">
+      <div class="flex border-b border-gray-200 mb-4">
+        <button
+          *ngFor="let tab of tabs"
+          (click)="activeTab = tab.key"
+          class="px-4 py-2 -mb-px text-sm font-medium border-b-2 transition-colors duration-300"
+          [ngClass]="{
+            'border-primary text-primary': activeTab === tab.key,
+            'border-transparent text-gray-500 hover:text-primary':
+              activeTab !== tab.key
+          }"
+        >
+          {{ tab.label }}
+        </button>
+      </div>
+
+      <ng-container [ngSwitch]="activeTab">
         <!-- STUDENT SEARCH VIEW -->
         <ng-container *ngSwitchCase="'student'">
           <div class="relative h-[100px] mb-6 bg-gray-300">
@@ -33,7 +48,7 @@
             <div
               *ngFor="let student of studentResults"
               (click)="onSelectStudent(student)"
-              class="p-2 border-b pr-8 last:border-none flex items-center hover:bg-primary hover:!text-white cursor-pointer rounded-lg transform transition duration-200"
+              class="p-2 border-b pr-8 text-grey flex items-center hover:bg-primary hover:!text-white cursor-pointer rounded-lg transform transition duration-200"
             >
               <img
                 [src]="student.profileImage"
@@ -48,12 +63,21 @@
               >
                 person
               </span>
-              <p class="text-sm">{{ student.fullName }}</p>
-              <p class="text-sm">{{ student.regNumber }}</p>
-              <p class="text-sm">{{ student.class.name }}</p>
-              <p class="text-sm">{{ student.organization.organizationName }}</p>
+              <div>
+                <p class="text-sm">{{ student.fullName }}</p>
+                <p class="text-sm">{{ student.regNumber }}</p>
+                <p class="text-sm" *ngIf="student.class">
+                  {{ student.class.name }}
+                </p>
+                <p class="text-sm" *ngIf="student.department">
+                  {{ student.department.name }}
+                </p>
+                <p class="text-sm">
+                  {{ student.organization.organizationName }}
+                </p>
+              </div>
               <span
-                class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition"
+                class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition text-primary"
               >
                 chevron_right
               </span>
