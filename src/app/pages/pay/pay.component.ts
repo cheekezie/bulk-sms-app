@@ -212,6 +212,14 @@ export class PayComponent implements OnInit, OnDestroy {
   }
 
   onSelectSchedule(schedule: ScheduleI) {
+    if (!schedule.canPay as any) {
+      Alert.show({
+        type: 'error',
+        position: 'top-center',
+        description: 'You must start payment from the first schedule',
+      });
+      return;
+    }
     this.selectedSchedule = schedule;
     this.currStep = 3;
   }
@@ -263,7 +271,27 @@ export class PayComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.loading = false;
-          this.scheduleItems = res.data.scheduleDetails;
+          const priority = {
+            overdue: 1,
+            'part-payment': 2,
+            pending: 3,
+          };
+
+          const sorted = res.data.scheduleDetails.sort(
+            (a, b) =>
+              priority[a.status as keyof typeof priority] -
+              priority[b.status as keyof typeof priority]
+          );
+
+          const schedules = sorted.map((schedule, index) => {
+            return {
+              ...schedule,
+              canPay: index === 0,
+            };
+          });
+          console.log(schedules);
+
+          this.scheduleItems = schedules;
           this.scheduleId = res.data._id;
           this.currStep++;
         },

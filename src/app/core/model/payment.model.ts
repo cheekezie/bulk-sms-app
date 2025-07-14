@@ -171,11 +171,12 @@ export interface ScheduleI {
   session: string;
   schoolType: string;
   term: 'firstTerm' | 'secondTerm' | 'thirdTerm';
-  status: string;
+  status: 'overdue' | 'part-payment' | 'pending';
   amount: number;
   actualAmount: number;
   totalReceived: number;
   amountToComplete: number;
+  canPay?: boolean;
   variation: number;
   _id: string;
 }

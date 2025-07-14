@@ -106,6 +106,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  resetLocalStore() {
+    this.localStore.removeItem('_skool');
+    this.localStore.removeItem('_student');
+    this.localStore.removeItem('_sessions');
+    this.localStore.removeItem('_fee');
+  }
+
   private loopTypewriter(): void {
     const currentText = this.texts[this.textIndex];
 

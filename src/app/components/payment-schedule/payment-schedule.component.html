@@ -19,7 +19,7 @@
         'text-blue-600': data.status === 'part-payment',
       }"
       >
-        assignment
+        {{ data.canPay ? "warning" : "assignment" }}
       </span>
     </div>
     <div>
@@ -52,8 +52,13 @@
   <div class="flex gap-2 mb-2 flex-wrap">
     <span
       class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
+      ># {{ data.status | titlecase }}</span
+    >
+    <span
+      class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
       ># {{ data.session }}</span
     >
+
     <span
       class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-medium"
       ># {{ termData ? termData.title : "" }}</span
