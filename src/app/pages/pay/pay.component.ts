@@ -272,8 +272,8 @@ export class PayComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.loading = false;
           const priority = {
-            overdue: 1,
-            'part-payment': 2,
+            'part-payment': 1,
+            overdue: 2,
             pending: 3,
           };
 
@@ -289,7 +289,6 @@ export class PayComponent implements OnInit, OnDestroy {
               canPay: index === 0,
             };
           });
-          console.log(schedules);
 
           this.scheduleItems = schedules;
           this.scheduleId = res.data._id;
