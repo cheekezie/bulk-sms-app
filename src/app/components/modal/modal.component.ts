@@ -1,11 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ComponentRef,
   EventEmitter,
+  Inject,
   Input,
   Output,
+  Renderer2,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -32,13 +34,17 @@ export class ModalComponent implements AfterViewInit {
   private sub!: Subscription;
   private pendingConfig: ModalDataI | null = null;
 
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private modalService: ModalService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   ngAfterViewInit() {
     this.sub = this.modalService.modal$.subscribe((config: ModalDataI) => {
       this.pendingConfig = config;
       this.isOpen = true;
-
+      this.renderer.addClass(this.document.body, 'no-scroll');
       // Wait for view to render before creating the component
       setTimeout(() => {
         this.injectComponent();

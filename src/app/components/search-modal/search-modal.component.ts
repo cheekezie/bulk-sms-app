@@ -4,10 +4,12 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,7 +35,7 @@ import { TenantService } from 'src/app/core/services/tenant.service';
   templateUrl: './search-modal.component.html',
   styleUrl: './search-modal.component.scss',
 })
-export class SearchModalComponent implements OnInit, OnDestroy {
+export class SearchModalComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isOpen = false;
   @Output() closeModal = new EventEmitter();
   schoolResults: SearchSchoolI[] = [];
@@ -58,9 +60,8 @@ export class SearchModalComponent implements OnInit, OnDestroy {
   get isDefaulTenant() {
     return this.tenant.config.isDefault;
   }
-  ngOnInit(): void {
-    this.renderer.addClass(this.document.body, 'no-scroll');
 
+  ngOnInit(): void {
     this.searchSub$ = this.schoolSearchCtrl.valueChanges
       .pipe(
         debounceTime(1000),
@@ -130,6 +131,14 @@ export class SearchModalComponent implements OnInit, OnDestroy {
         }
         this.searching = false;
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isOpen'].currentValue === true) {
+      this.renderer.addClass(this.document.body, 'no-scroll');
+    } else {
+      this.renderer.removeClass(this.document.body, 'no-scroll');
+    }
   }
 
   onSelectSchool(school: SearchSchoolI) {

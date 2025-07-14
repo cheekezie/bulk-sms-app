@@ -4,10 +4,12 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -34,7 +36,7 @@ import { TenantService } from 'src/app/core/services/tenant.service';
   templateUrl: './check-payment.component.html',
   styleUrl: './check-payment.component.scss',
 })
-export class CheckPaymentComponent implements OnInit, OnDestroy {
+export class CheckPaymentComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isOpen = false;
   @Output() closeModal = new EventEmitter();
   @Output() selectStudent = new EventEmitter();
@@ -61,8 +63,6 @@ export class CheckPaymentComponent implements OnInit, OnDestroy {
     return this.tenant.config.isDefault;
   }
   ngOnInit(): void {
-    this.renderer.addClass(this.document?.body, 'no-scroll');
-
     // Search Student With Reg Number
     this.searchSub$ = this.studentSearchCtrl.valueChanges
       .pipe(
@@ -98,6 +98,14 @@ export class CheckPaymentComponent implements OnInit, OnDestroy {
         }
         this.searching = false;
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isOpen'].currentValue === true) {
+      this.renderer.addClass(this.document.body, 'no-scroll');
+    } else {
+      this.renderer.removeClass(this.document.body, 'no-scroll');
+    }
   }
 
   onItemSelect(item: any) {}
