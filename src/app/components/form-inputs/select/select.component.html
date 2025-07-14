@@ -14,10 +14,11 @@
     }}"
     [value]="value"
     [disabled]="disabled"
+    (change)="handleChange($event)"
   >
     <option value="" disabled selected>--select--</option>
     <ng-container *ngIf="isObjectArray">
-      <option [value]="item[labelKey]" *ngFor="let item of data">
+      <option [value]="item[valueKey]" *ngFor="let item of data">
         {{ item[labelKey] | titlecase }}
       </option>
     </ng-container>

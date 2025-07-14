@@ -110,6 +110,10 @@ export class PayComponent implements OnInit, OnDestroy {
     return this.fee?.payerType === 'others';
   }
 
+  get openFee() {
+    return this.externalFee && this.fee.systemType === 'open';
+  }
+
   ngOnInit(): void {
     const item = this.localStore.getItem('_fee');
     const localStudent = this.localStore.getItem('_student');
@@ -119,7 +123,7 @@ export class PayComponent implements OnInit, OnDestroy {
       const student: StudentI = JSON.parse(localStudent);
       this.verifiedStudent = student;
       this.regCtrl?.patchValue(student.regNumber);
-      this.regCtrl?.disable();
+      // this.regCtrl?.disable();
       this.regCtrl?.updateValueAndValidity();
     }
 
@@ -155,8 +159,6 @@ export class PayComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((result) => {
-        console.log('verfifying', result);
-
         this.verifiedStudent = result?.data ?? null;
         this.searching = false;
       });
@@ -191,10 +193,12 @@ export class PayComponent implements OnInit, OnDestroy {
     if (this.externalFee) {
       this.form.get('payerName')?.addValidators([Validators.required]);
       this.form.get('year')?.addValidators([Validators.required]);
-      this.form.get('term')?.addValidators([Validators.required]);
+      if (this.fee.cycle === this.cycleEnums.TERMLY) {
+        this.form.get('term')?.addValidators([Validators.required]);
+      }
     }
 
-    if (this.fee.requireValidation) {
+    if (this.fee.externalList) {
       this.form.get('payerRegId')?.addValidators([Validators.required]);
       this.form.get('payerName')?.clearValidators();
     }

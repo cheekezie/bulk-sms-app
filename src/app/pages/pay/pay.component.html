@@ -23,17 +23,26 @@
 
             <div
               class="border border-green-500 bg-green-100 text-green-500 text-sm px-2 py-1 rounded-[8px] mb-4"
-              *ngIf="verifiedStudent"
+              *ngIf="verifiedStudent && studentFee"
             >
               {{ verifiedStudent.fullName | titlecase }} -
               {{ verifiedStudent.class.name }}
             </div>
 
             <app-text-input
-              *ngIf="fee?.requireValidation && externalFee"
+              *ngIf="fee?.externalList && externalFee"
               label="Payer ID"
               placeholder="Payer ID"
-              formControlName="extraInformation"
+              formControlName="payerRegId"
+            />
+
+            <app-text-input
+              *ngIf="openFee"
+              label="Payer Name"
+              id="payername"
+              name="payername"
+              placeholder="e.g Paschal Nemerem"
+              formControlName="payerName"
             />
 
             <app-text-input
@@ -53,6 +62,14 @@
 
             <div *ngIf="externalFee">
               <app-select
+                label="Session"
+                formControlName="year"
+                [data]="sessions"
+                valueKey="year"
+                labelKey="year"
+              />
+
+              <app-select
                 [label]="termLabel"
                 formControlName="term"
                 [data]="terms"
@@ -61,20 +78,19 @@
                 *ngIf="fee.cycle === cycleEnums.TERMLY"
               />
 
-              <app-select
-                label="Session"
-                formControlName="year"
-                [data]="sessions"
-                valueKey="year"
-                labelKey="year"
+              <app-text-input
+                *ngIf="externalFee"
+                label="Extra information"
+                placeholder="Any extra information for this payment"
+                formControlName="extraInformation"
               />
             </div>
 
             <app-button
               label="Next"
               class="mt-4"
-              [disabled]="form.invalid"
               [loading]="loading"
+              [disabled]="form.invalid"
             />
           </form>
         </ng-container>

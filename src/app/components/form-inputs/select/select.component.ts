@@ -19,7 +19,7 @@ export class SelectComponent {
   @Input() labelKey = '';
   @Input() inputClass = '';
   @Input() label = '';
-  @Input() disabled = false;
+  disabled = false;
   value: any; // Bound value for the select
 
   get isObjectArray() {
@@ -44,11 +44,15 @@ export class SelectComponent {
     this.onTouched = fn;
   }
 
-  // Handles the `ionChange` event
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  // Handles the input event
   handleChange(event: any) {
-    const selectedValue = event.detail.value; // Extract the value from event.detail
+    const selectedValue = event.target.value; // ✅ Works for native HTML input
     this.value = selectedValue;
-    this.onChange(selectedValue); // Notify the parent form control of the value change
+    this.onChange(selectedValue); // Notify parent form
     this.onTouched();
   }
 }
