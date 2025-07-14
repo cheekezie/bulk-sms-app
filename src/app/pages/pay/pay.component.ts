@@ -112,7 +112,16 @@ export class PayComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const item = this.localStore.getItem('_fee');
+    const localStudent = this.localStore.getItem('_student');
     const sessionList = this.localStore.getItem('_sessions');
+
+    if (localStudent) {
+      const student: StudentI = JSON.parse(localStudent);
+      this.verifiedStudent = student;
+      this.regCtrl?.patchValue(student.regNumber);
+      this.regCtrl?.disable();
+      this.regCtrl?.updateValueAndValidity();
+    }
 
     if (item) {
       this.fee = JSON.parse(item);
@@ -146,6 +155,8 @@ export class PayComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((result) => {
+        console.log('verfifying', result);
+
         this.verifiedStudent = result?.data ?? null;
         this.searching = false;
       });

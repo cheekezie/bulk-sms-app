@@ -152,6 +152,7 @@ export class SearchModalComponent implements OnInit, OnDestroy, OnChanges {
   onSelectStudent(student: StudentI) {
     this.router.navigate(['fees', student.organization._id]);
     this.localStore.setItem('_skool', JSON.stringify(student.organization));
+    this.localStore.setItem('_student', JSON.stringify(student));
   }
 
   onClose() {
