@@ -27,11 +27,12 @@ export class PaymentScheduleComponent {
   }
 
   get amountExpected() {
+    const charge = this.data.feeNGCharge ?? 0;
     if (this.data.actualAmount) {
-      return this.data.actualAmount;
+      return this.data.actualAmount + charge;
     }
     if (this.data.amount) {
-      return this.data.amount;
+      return this.data.amount + charge;
     }
     return 0;
   }

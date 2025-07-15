@@ -100,6 +100,14 @@
           <p class="text-lg text-dark text-center">Select a schedule to pay</p>
           <ng-container *ngTemplateOutlet="back"> </ng-container>
           <div class="pt-2">
+            <div
+              class="py-10 mt-8 text-center"
+              *ngIf="!scheduleItems?.length && !loading"
+            >
+              <p class="text-lg text-dark text-center">
+                You do not have any payment to make at this time
+              </p>
+            </div>
             <ng-container *ngFor="let item of scheduleItems">
               <app-payment-schedule
                 [data]="item"

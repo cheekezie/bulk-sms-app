@@ -50,7 +50,7 @@ export class SelectComponent {
 
   // Handles the input event
   handleChange(event: any) {
-    const selectedValue = event.target.value; // ✅ Works for native HTML input
+    const selectedValue = event.target.value;
     this.value = selectedValue;
     this.onChange(selectedValue); // Notify parent form
     this.onTouched();

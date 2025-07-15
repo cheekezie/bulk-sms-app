@@ -175,6 +175,7 @@ export interface ScheduleI {
   amount: number;
   actualAmount: number;
   totalReceived: number;
+  feeNGCharge: number;
   amountToComplete: number;
   canPay?: boolean;
   variation: number;
