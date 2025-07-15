@@ -281,12 +281,6 @@ export class PayComponent implements OnInit, OnDestroy {
             pending: 3,
           };
 
-          const sorted = res.data.scheduleDetails.sort(
-            (a, b) =>
-              priority[a.status as keyof typeof priority] -
-              priority[b.status as keyof typeof priority]
-          );
-
           const schedules = res.data.scheduleDetails.map((schedule, index) => {
             return {
               ...schedule,
