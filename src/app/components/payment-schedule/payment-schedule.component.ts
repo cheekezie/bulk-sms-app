@@ -16,12 +16,14 @@ export class PaymentScheduleComponent {
   @Input() data: ScheduleI;
   @Output() itemSelect = new EventEmitter<ScheduleI>();
   constructor(private util: UtilService) {}
+
   get amountDue() {
+    const charge = this.data?.feeNGCharge ?? 0;
     if (this.data.amountToComplete) {
       return this.data.amountToComplete;
     }
     if (this.data.amount) {
-      return this.data.amount;
+      return this.data.amount + charge;
     }
     return 0;
   }

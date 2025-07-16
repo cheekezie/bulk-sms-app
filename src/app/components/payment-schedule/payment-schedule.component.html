@@ -15,11 +15,11 @@
         class="material-symbols-outlined text-dark"
         [ngClass]="{
         'text-yellow-600': data.status === 'pending',
-        'text-red-600': data.status === 'overdue',
+        'text-red-600': data.status === 'overdue' || data.priority ===1,
         'text-blue-600': data.status === 'part-payment',
       }"
       >
-        {{ data.canPay ? "warning" : "assignment" }}
+        {{ data.priority === 1 ? "warning" : "assignment" }}
       </span>
     </div>
     <div>

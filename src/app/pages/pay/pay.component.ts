@@ -216,7 +216,7 @@ export class PayComponent implements OnInit, OnDestroy {
   }
 
   onSelectSchedule(schedule: ScheduleI) {
-    if (!schedule.canPay as any) {
+    if (schedule.priority !== 1) {
       Alert.show({
         type: 'error',
         position: 'top-center',
@@ -275,25 +275,7 @@ export class PayComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.loading = false;
-          const priority = {
-            'part-payment': 1,
-            overdue: 2,
-            pending: 3,
-          };
-
-          const sorted = res.data.scheduleDetails.sort(
-            (a, b) =>
-              priority[a.status as keyof typeof priority] -
-              priority[b.status as keyof typeof priority]
-          );
-
-          const schedules = sorted.map((schedule, index) => {
-            return {
-              ...schedule,
-              canPay: index === 0,
-            };
-          });
-
+          const schedules = res.data.scheduleDetails;
           this.scheduleItems = schedules;
           this.scheduleId = res.data._id;
           this.currStep++;

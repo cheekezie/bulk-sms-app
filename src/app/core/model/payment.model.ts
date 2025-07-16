@@ -177,7 +177,7 @@ export interface ScheduleI {
   totalReceived: number;
   feeNGCharge: number;
   amountToComplete: number;
-  canPay?: boolean;
+  priority: number;
   variation: number;
   _id: string;
 }
