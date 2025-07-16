@@ -304,6 +304,9 @@ export class PayComponent implements OnInit, OnDestroy {
 
         if (res.data.status === PaymentInitEnums.WALLETCOMPLETED) {
           Alert.show({ type: 'info', description: res.data.message });
+          this.paymentS.setInvoiceInitData(null as any);
+          this.router.navigate(['invoice', res.data.invoice.transactionRef]);
+          return;
         }
 
         const data = { ...res.data, student: this.verifiedStudent as any };
