@@ -99,6 +99,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.resetLocalStore();
     if (isPlatformBrowser(this.platformId)) {
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => this.loopTypewriter(), 500);
@@ -107,10 +108,10 @@ export class HomeComponent implements OnInit {
   }
 
   resetLocalStore() {
-    this.localStore.removeItem('_skool');
     this.localStore.removeItem('_student');
-    this.localStore.removeItem('_sessions');
     this.localStore.removeItem('_fee');
+    // this.localStore.removeItem('_skool');
+    // this.localStore.removeItem('_sessions');
   }
 
   private loopTypewriter(): void {

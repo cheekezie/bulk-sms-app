@@ -115,7 +115,7 @@ export class PayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const item = this.localStore.getItem('_fee');
+    const feeItem = this.localStore.getItem('_fee');
     const localStudent = this.localStore.getItem('_student');
     const sessionList = this.localStore.getItem('_sessions');
 
@@ -127,8 +127,8 @@ export class PayComponent implements OnInit, OnDestroy {
       this.regCtrl?.updateValueAndValidity();
     }
 
-    if (item) {
-      this.fee = JSON.parse(item);
+    if (feeItem) {
+      this.fee = JSON.parse(feeItem);
       this.sessions = sessionList ? JSON.parse(sessionList) : [];
       this.handleTermArr();
       this.handleForm();
@@ -275,13 +275,11 @@ export class PayComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.loading = false;
-          const priority = {
-            'part-payment': 1,
-            overdue: 2,
-            pending: 3,
-          };
 
-          const schedules = res.data.scheduleDetails.map((schedule, index) => {
+          const hasAmount = res.data.scheduleDetails.filter(
+            (s) => s.amount || s.actualAmount || s.amountToComplete
+          );
+          const schedules = hasAmount.map((schedule, index) => {
             return {
               ...schedule,
               canPay: index === 0,
