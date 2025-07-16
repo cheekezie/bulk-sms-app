@@ -27,8 +27,61 @@
       </div>
 
       <ng-container [ngSwitch]="activeTab">
+        <!-- SCHOOL SEARCH VIEW -->
+        <ng-container *ngSwitchCase="'school'">
+          <div class="relative h-[100px] mb-6 bg-gray-300">
+            <input
+              type="text"
+              [formControl]="schoolSearchCtrl"
+              placeholder="Search for a school..."
+              class="w-full h-full pl-14 pr-4 text-xl text-gray-800 border-b-2 border-gray-300 focus:outline-none border-primary bg-transparent placeholder-gray-400"
+            />
+            <div
+              class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+            >
+              <ng-container *ngTemplateOutlet="searchIcon"></ng-container>
+            </div>
+          </div>
+
+          <ng-container *ngTemplateOutlet="loading"></ng-container>
+          <h2 class="text-xl font-medium mb-4 text-primary">Search Result</h2>
+          <div
+            class="overflow-y-auto flex-1 border border-gray-200 rounded-md p-3 space-y-2"
+          >
+            <div *ngIf="isEmpty" class="my-8">
+              <p class="text-grey text-center text-sm">No school data found</p>
+            </div>
+
+            <div
+              *ngFor="let school of schoolResults"
+              (click)="onSelectSchool(school)"
+              class="p-2 border-b pr-8 flex items-center hover:bg-primary hover:!text-white cursor-pointer rounded-lg transform transition duration-200"
+            >
+              <img
+                [src]="school.logo"
+                class="w-8 mr-4 rounded-lg shadow-sm"
+                alt="school logo"
+                *ngIf="school.logo"
+              />
+
+              <span
+                class="material-symbols-outlined w-8 h-8 text-[2rem] mr-4 rounded-lg shadow-sm"
+                *ngIf="!school.logo"
+              >
+                school
+              </span>
+              <p class="text-sm">{{ school.organizationName }}</p>
+              <span
+                class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition"
+              >
+                chevron_right
+              </span>
+            </div>
+          </div>
+        </ng-container>
+
         <!-- STUDENT SEARCH VIEW -->
-        <ng-container *ngSwitchCase="'student'">
+        <ng-container *ngSwitchDefault>
           <div class="relative h-[100px] mb-6 bg-gray-300">
             <input
               type="text"
@@ -78,59 +131,6 @@
               </div>
               <span
                 class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition text-primary"
-              >
-                chevron_right
-              </span>
-            </div>
-          </div>
-        </ng-container>
-
-        <!-- SCHOOL SEARCH VIEW -->
-        <ng-container *ngSwitchDefault>
-          <div class="relative h-[100px] mb-6 bg-gray-300">
-            <input
-              type="text"
-              [formControl]="schoolSearchCtrl"
-              placeholder="Search for a school..."
-              class="w-full h-full pl-14 pr-4 text-xl text-gray-800 border-b-2 border-gray-300 focus:outline-none border-primary bg-transparent placeholder-gray-400"
-            />
-            <div
-              class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-            >
-              <ng-container *ngTemplateOutlet="searchIcon"></ng-container>
-            </div>
-          </div>
-
-          <ng-container *ngTemplateOutlet="loading"></ng-container>
-          <h2 class="text-xl font-medium mb-4 text-primary">Search Result</h2>
-          <div
-            class="overflow-y-auto flex-1 border border-gray-200 rounded-md p-3 space-y-2"
-          >
-            <div *ngIf="isEmpty" class="my-8">
-              <p class="text-grey text-center text-sm">No school data found</p>
-            </div>
-
-            <div
-              *ngFor="let school of schoolResults"
-              (click)="onSelectSchool(school)"
-              class="p-2 border-b pr-8 flex items-center hover:bg-primary hover:!text-white cursor-pointer rounded-lg transform transition duration-200"
-            >
-              <img
-                [src]="school.logo"
-                class="w-8 mr-4 rounded-lg shadow-sm"
-                alt="school logo"
-                *ngIf="school.logo"
-              />
-
-              <span
-                class="material-symbols-outlined w-8 h-8 text-[2rem] mr-4 rounded-lg shadow-sm"
-                *ngIf="!school.logo"
-              >
-                school
-              </span>
-              <p class="text-sm">{{ school.organizationName }}</p>
-              <span
-                class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 transition"
               >
                 chevron_right
               </span>
