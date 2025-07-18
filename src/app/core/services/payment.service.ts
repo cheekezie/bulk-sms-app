@@ -5,6 +5,7 @@ import { RequestService } from './request.service';
 import {
   FeeI,
   FeesDataResponse,
+  GetScheduleI,
   InitiatePaymentResponse,
   MyTransactionsI,
   QueryPaymentI,
@@ -115,12 +116,7 @@ export class PaymentService {
       },
     });
     return this.reqS.get<{
-      data: {
-        regNumber: string;
-        fee: string;
-        scheduleDetails: ScheduleI[];
-        _id: string;
-      };
+      data: GetScheduleI;
     }>(PaymentApi.getSchedule, params);
   }
 

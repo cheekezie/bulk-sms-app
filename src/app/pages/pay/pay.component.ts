@@ -77,6 +77,7 @@ export class PayComponent implements OnInit, OnDestroy {
   scheduleItems: ScheduleI[] = [];
   selectedSchedule: ScheduleI;
   scheduleId: string;
+  walletBalance: number;
   constructor(
     private activatedRoute: ActivatedRoute,
     private paymentS: PaymentService,
@@ -279,6 +280,7 @@ export class PayComponent implements OnInit, OnDestroy {
           const schedules = res.data.scheduleDetails;
           this.scheduleItems = schedules;
           this.scheduleId = res.data._id;
+          this.walletBalance = res.data?.studentWallet?.currentBalance ?? 0;
           this.currStep++;
         },
         error: (err) => {
@@ -305,13 +307,8 @@ export class PayComponent implements OnInit, OnDestroy {
 
         if (res.data.status === PaymentInitEnums.WALLETCOMPLETED) {
           Alert.show({ type: 'info', description: res.data.message });
-          this.paymentS.setInvoiceInitData(null as any);
-          this.router.navigate(['invoice', res.data.invoice.transactionRef]);
-          return;
         }
 
-        const data = { ...res.data, student: this.verifiedStudent as any };
-        this.paymentS.setInvoiceInitData(data);
         this.router.navigate(['invoice', res.data.invoice.transactionRef]);
       },
       error: (err) => {

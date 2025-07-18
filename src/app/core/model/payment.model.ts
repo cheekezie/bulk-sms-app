@@ -162,6 +162,19 @@ export interface InitiatePaymentResponse {
   status: PaymentInitEnums;
 }
 
+export interface GetScheduleI {
+  regNumber: string;
+  fee: string;
+  remainingWalletAfterUsed: number;
+  totalWalletDistributed: number;
+  scheduleDetails: ScheduleI[];
+  studentWallet: {
+    currentBalance: number;
+    regNumber: string;
+  };
+  _id: string;
+}
+
 export interface ScheduleI {
   paymentId: string;
   fee: string;
@@ -176,9 +189,14 @@ export interface ScheduleI {
   actualAmount: number;
   totalReceived: number;
   feeNGCharge: number;
+  selfCharged: boolean;
   amountToComplete: number;
   priority: number;
   variation: number;
+  payFromWallet: {
+    amountFromWallet: number;
+    amountLeftToComplete: number;
+  };
   _id: string;
 }
 

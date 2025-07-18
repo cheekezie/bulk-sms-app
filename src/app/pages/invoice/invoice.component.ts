@@ -76,19 +76,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.paymentS.invoiceInit$.pipe(take(1)).subscribe((data) => {
-      if (data) {
-        console.log(data);
-
-        this.data = data;
-        this.setTitle();
-        this.isCheckoutOpen = this.canPayStatus.includes(
-          this.data?.invoice?.paymentStatus
-        );
-      } else {
-        this.getInvoiceByRef();
-      }
-    });
+    this.getInvoiceByRef();
   }
 
   ngOnDestroy(): void {

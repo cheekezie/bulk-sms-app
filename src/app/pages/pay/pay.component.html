@@ -100,6 +100,12 @@
           <p class="text-lg text-dark text-center">Select a schedule to pay</p>
           <ng-container *ngTemplateOutlet="back"> </ng-container>
           <div class="pt-2">
+            <div class="flex mb-2 mt-4 items-center" *ngIf="walletBalance">
+              <span class="text-sm mr-2 text-grey">Wallet Balance:</span>
+              <span class="font-semibold textm-sm text-black">{{
+                walletBalance | naira
+              }}</span>
+            </div>
             <div
               class="py-10 mt-8 text-center"
               *ngIf="!scheduleItems?.length && !loading"

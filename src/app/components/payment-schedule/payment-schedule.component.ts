@@ -18,6 +18,10 @@ export class PaymentScheduleComponent {
   constructor(private util: UtilService) {}
 
   get amountDue() {
+    if (this.data?.payFromWallet?.amountLeftToComplete) {
+      return this.data?.payFromWallet?.amountLeftToComplete;
+    }
+
     const variation = this.data.variation ?? 0;
     if (this.data.amountToComplete) {
       return this.data.amountToComplete;
@@ -30,11 +34,12 @@ export class PaymentScheduleComponent {
 
   get amountExpected() {
     const variation = this.data.variation ?? 0;
+    const charge = this.data.selfCharged ? 0 : this.data.feeNGCharge || 0;
     if (this.data.actualAmount) {
-      return this.data.actualAmount + variation;
+      return this.data.actualAmount + variation + charge;
     }
     if (this.data.amount) {
-      return this.data.amount + variation;
+      return this.data.amount + variation + charge;
     }
     return 0;
   }

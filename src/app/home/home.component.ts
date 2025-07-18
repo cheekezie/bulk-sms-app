@@ -100,6 +100,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetLocalStore();
+
     if (isPlatformBrowser(this.platformId)) {
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => this.loopTypewriter(), 500);

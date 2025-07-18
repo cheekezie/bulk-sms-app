@@ -1,9 +1,7 @@
 export const environment = {
   production: false,
   envName: 'DEV',
-  // url: 'https://staging.api.fees.ng/api/v2/',
-  // url: 'https://fees-ng-be-staging.onrender.com/api/v2/',
-  // url: 'https://dev.api.fees.ng/api/v2/',
+  //baseUrl: 'https://0zp1fjwh-9017.uks1.devtunnels.ms/api/v2/',
   baseUrl: 'http://localhost:45000/api/v2/',
   // examportalUrl: 'https://staging.api.examportal.ng/api/v1/',
   examportalKey: 'sllwjKQ9UiUb',
