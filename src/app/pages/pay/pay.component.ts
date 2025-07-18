@@ -115,7 +115,7 @@ export class PayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const item = this.localStore.getItem('_fee');
+    const feeItem = this.localStore.getItem('_fee');
     const localStudent = this.localStore.getItem('_student');
     const sessionList = this.localStore.getItem('_sessions');
 
@@ -127,8 +127,8 @@ export class PayComponent implements OnInit, OnDestroy {
       this.regCtrl?.updateValueAndValidity();
     }
 
-    if (item) {
-      this.fee = JSON.parse(item);
+    if (feeItem) {
+      this.fee = JSON.parse(feeItem);
       this.sessions = sessionList ? JSON.parse(sessionList) : [];
       this.handleTermArr();
       this.handleForm();
@@ -224,6 +224,7 @@ export class PayComponent implements OnInit, OnDestroy {
       });
       return;
     }
+
     this.selectedSchedule = schedule;
     this.currStep = 3;
   }
