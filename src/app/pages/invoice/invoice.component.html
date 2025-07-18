@@ -137,7 +137,13 @@
         (click)="onDownload()"
       >
         <span class="material-symbols-outlined mr-3"> download </span>
-        {{ data.invoice.paymentCompleted ? "Receipt" : "Invoice" }}
+        <span *ngIf="!dowloading">
+          {{ data.invoice.paymentCompleted ? "Receipt" : "Invoice" }}</span
+        >
+        <i
+          class="fas fa-circle-notch fa-spin text-dark ml-6"
+          *ngIf="dowloading"
+        ></i>
       </button>
 
       <button

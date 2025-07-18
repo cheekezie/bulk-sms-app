@@ -120,6 +120,10 @@ export class PaymentService {
     }>(PaymentApi.getSchedule, params);
   }
 
+  public downloadInvoice(ref: string) {
+    return this.reqS.getFile<Blob>(PaymentApi.downloadInvoice + '/' + ref);
+  }
+
   public invoiceDetails(ref: string): Observable<QueryPaymentI> {
     const params = new HttpParams({
       fromObject: {

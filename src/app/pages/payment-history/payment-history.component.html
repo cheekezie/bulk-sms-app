@@ -108,7 +108,15 @@
             <span class="material-symbols-outlined">
               vertical_align_bottom
             </span>
-            {{ data.paymentCompleted ? "Receipt" : "Invoice" }}
+            <span
+              *ngIf="!dowloading || currDownloadRef !== data.transactionRef"
+            >
+              {{ data.paymentCompleted ? "Receipt" : "Invoice" }}</span
+            >
+            <i
+              class="fas fa-circle-notch fa-spin text-dark ml-6"
+              *ngIf="dowloading && currDownloadRef === data.transactionRef"
+            ></i>
           </button>
 
           <!-- Green Pay Now Button -->

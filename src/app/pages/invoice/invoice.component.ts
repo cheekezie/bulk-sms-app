@@ -31,6 +31,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   data: InitiatePaymentResponse;
   isCheckoutOpen = false;
   checkingPayment = false;
+  dowloading = false;
   canPayStatus = [PaymentStatusEnums.PENDING, PaymentStatusEnums.PART_PAYMENT];
   constructor(
     private paymentS: PaymentService,
@@ -138,12 +139,24 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   }
 
   onDownload() {
-    if (this.data.invoice.paymentCompleted) {
-      // download receipt
-      return;
-    }
-
-    // download invoice
+    const ref = this.data.invoice.transactionRef;
+    const isApproved = this.data.invoice.paymentCompleted;
+    const title = isApproved ? 'receipt' : 'invoice';
+    this.dowloading = true;
+    this.paymentS.downloadInvoice(ref).subscribe({
+      next: (res) => {
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(res);
+        a.href = objectUrl;
+        a.download = `payment-${title}.pdf`;
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+        this.dowloading = false;
+      },
+      error: (error) => {
+        this.dowloading = false;
+      },
+    });
   }
 
   goBack() {

@@ -34,7 +34,9 @@ export class PaymentHistoryComponent implements OnInit {
   result: InvoiceI[] = [];
   loading = false;
   isModalOpen = false;
+  dowloading = false;
   isEmpty = false;
+  currDownloadRef = '';
   payerName = '';
   regNumber = '';
   school: Partial<BusinessI>;
@@ -126,6 +128,26 @@ export class PaymentHistoryComponent implements OnInit {
 
   download(event: MouseEvent, item: InvoiceI) {
     event.stopPropagation();
+    const ref = item.transactionRef;
+    const title = item.paymentCompleted ? 'receipt' : 'invoice';
+    this.dowloading = true;
+    this.currDownloadRef = ref;
+    this.paymentS.downloadInvoice(ref).subscribe({
+      next: (res) => {
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(res);
+        a.href = objectUrl;
+        a.download = `payment-${title}.pdf`;
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+        this.dowloading = false;
+        this.currDownloadRef = '';
+      },
+      error: (error) => {
+        this.currDownloadRef = '';
+        this.dowloading = false;
+      },
+    });
   }
 
   async onToggleModal() {

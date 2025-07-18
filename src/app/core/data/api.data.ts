@@ -9,6 +9,7 @@ export const PaymentApi = {
   updateProfile: 'account/update-profile',
   changePassword: 'account/change-password',
   verifyPayer: 'student/getByRegNumber',
+  downloadInvoice: 'payment/download-invoice',
 };
 
 export const FeeApi = {
