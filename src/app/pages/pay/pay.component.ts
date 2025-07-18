@@ -277,8 +277,10 @@ export class PayComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.loading = false;
-          const schedules = res.data.scheduleDetails;
-          this.scheduleItems = schedules;
+          const hasAmount = res.data.scheduleDetails.filter(
+            (s) => s.amount || s.actualAmount || s.amountToComplete
+          );
+          this.scheduleItems = hasAmount;
           this.scheduleId = res.data._id;
           this.walletBalance = res.data?.studentWallet?.currentBalance ?? 0;
           this.currStep++;
