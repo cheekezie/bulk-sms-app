@@ -38,15 +38,15 @@
 
       <div class="flex justify-between mb-3" *ngIf="data.invoice.regNumber">
         <p class="text-dark text-sm">Reg Number:</p>
-        <p class="text-gray-700 text-sm text-right font-semibold">
-          {{ data.invoice.regNumber | titlecase }}
+        <p class="text-gray-700 text-sm text-right font-semibold uppercase">
+          {{ data.invoice.regNumber }}
         </p>
       </div>
 
       <div class="flex justify-between mb-3" *ngIf="data.invoice.payerRegId">
         <p class="text-dark text-sm">Payer ID:</p>
-        <p class="text-gray-700 text-sm text-right font-semibold">
-          {{ data.invoice.payerRegId | titlecase }}
+        <p class="text-gray-700 text-sm text-right font-semibold uppercase">
+          {{ data.invoice.payerRegId }}
         </p>
       </div>
 

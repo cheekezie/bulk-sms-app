@@ -77,7 +77,7 @@ export class PaymentHistoryComponent implements OnInit {
     this.paymentS.myInvoices(this.query).subscribe({
       next: ({ data }) => {
         this.result = data.payments.map((p) => {
-          const totalPaid = p.paymentHistory.reduce(
+          const totalPaid = p?.paymentHistory?.reduce(
             (acc, curr) => acc + curr.amount,
             0
           );
@@ -137,7 +137,7 @@ export class PaymentHistoryComponent implements OnInit {
         const a = document.createElement('a');
         const objectUrl = URL.createObjectURL(res);
         a.href = objectUrl;
-        a.download = `payment-${title}.pdf`;
+        a.download = `payment-${title}-${ref}.pdf`;
         a.click();
         URL.revokeObjectURL(objectUrl);
         this.dowloading = false;

@@ -148,7 +148,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         const a = document.createElement('a');
         const objectUrl = URL.createObjectURL(res);
         a.href = objectUrl;
-        a.download = `payment-${title}.pdf`;
+        a.download = `payment-${title}-${ref}.pdf`;
         a.click();
         URL.revokeObjectURL(objectUrl);
         this.dowloading = false;
