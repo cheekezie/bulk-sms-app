@@ -23,7 +23,7 @@ import { UiModule } from 'src/app/components/ui/ui.module';
 import { Semesters, Terms } from 'src/app/core/data/constants.data';
 import { Alert } from 'src/app/core/helpers/alert.helper';
 import { Loading } from 'src/app/core/helpers/loading.helper';
-import { SessionI } from 'src/app/core/model/business.model';
+import { BusinessI, SessionI } from 'src/app/core/model/business.model';
 import { FeeCycleEnums, PaymentInitEnums } from 'src/app/core/model/enums';
 import { FeeI, ScheduleI } from 'src/app/core/model/payment.model';
 import { StudentI } from 'src/app/core/model/student.mode';
@@ -70,6 +70,7 @@ export class PayComponent implements OnInit, OnDestroy {
   terms: { code: string; title: string }[] = [];
   termLabel = 'Term';
   fee: FeeI;
+  school: BusinessI;
   sessions: SessionI[] = [];
   searchSub$: Subscription;
   searching = false;
@@ -175,6 +176,7 @@ export class PayComponent implements OnInit, OnDestroy {
     this.paymentS.getFeeById(id).subscribe({
       next: (res) => {
         this.fee = res.data.fee;
+        this.school = res.data?.fee?.organization;
         this.sessions = res.data.sessions;
         this.handleTermArr();
         this.handleForm();

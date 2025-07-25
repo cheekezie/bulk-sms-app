@@ -1,6 +1,7 @@
 <app-pay-container
   (back)="goBack()"
   [customBack]="true"
+  [school]="school"
   [fee]="fee ? fee.title : ''"
   [payerName]="verifiedStudent ? verifiedStudent.fullName : ''"
 >

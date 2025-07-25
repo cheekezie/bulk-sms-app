@@ -14,11 +14,12 @@ import { CommonModule, Location } from '@angular/common';
 import { UtilService } from 'src/app/core/services/util.service';
 import { Router } from '@angular/router';
 import { BusinessI } from 'src/app/core/model/business.model';
+import { CustomPipeModule } from 'src/app/core/pipes/pipe.module';
 
 @Component({
   selector: 'app-pay-container',
   standalone: true,
-  imports: [SidebarVectorComponent, CommonModule],
+  imports: [SidebarVectorComponent, CustomPipeModule, CommonModule],
   templateUrl: './pay-container.component.html',
   styleUrl: './pay-container.component.scss',
 })

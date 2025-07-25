@@ -31,14 +31,14 @@
           class="text-xl font-bold truncate text-black"
           *ngIf="schoolData.name"
         >
-          {{ schoolData.name | titlecase }}
+          {{ schoolData.name | smarttitlecase }}
         </h6>
       </div>
       <h6
         class="text-[16px] font-semibold truncate text-grey mb-1 text-center"
         *ngIf="fee"
       >
-        {{ fee | titlecase }}
+        {{ fee | smarttitlecase }}
       </h6>
       <h6
         class="text-[16px] font-semibold truncate text-grey text-center mb-3"
