@@ -122,7 +122,25 @@ export class ExtractFileTypeFromPath implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'initials' })
+@Pipe({ name: 'smarttitlecase' })
+export class SmartTitleCase implements PipeTransform {
+  transform(text: string | null | undefined): string {
+    if (!text) {
+      return '';
+    }
+
+    const output = text.replace(/\b\w+\b/g, (word) => {
+      // If the word is all uppercase, leave it as-is
+      if (word === word.toUpperCase()) return word;
+      // Otherwise, capitalize it
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    });
+
+    return output;
+  }
+}
+
+@Pipe({ name: '' })
 export class NameInitials implements PipeTransform {
   transform(name: string | null | undefined): string {
     return Modify.initials(name);

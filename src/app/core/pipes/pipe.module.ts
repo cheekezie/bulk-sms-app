@@ -14,6 +14,7 @@ import {
   TransformRef,
   TransformTime,
   TransformToNaira,
+  SmartTitleCase,
 } from './index';
 
 @NgModule({
@@ -31,6 +32,7 @@ import {
     ReplaceUnderscore,
     CapitalizePipe,
     TransformAmount,
+    SmartTitleCase,
     // ExtractFileType,
   ],
   imports: [CommonModule],
@@ -47,6 +49,7 @@ import {
     TransformAmount,
     MaskText,
     CapitalizePipe,
+    SmartTitleCase,
     ExtractFileTypeFromPath,
   ],
 })
