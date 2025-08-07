@@ -94,7 +94,7 @@
         </p>
       </div>
 
-      <div class="flex justify-between mb-3">
+      <div class="flex justify-between mb-3" *ngIf="data.invoice.term">
         <p class="text-dark text-sm">{{ termData.type | titlecase }}:</p>
         <p class="text-gray-700 text-sm text-right font-semibold">
           {{ termData.title | titlecase }}

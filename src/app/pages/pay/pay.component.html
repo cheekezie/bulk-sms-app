@@ -26,8 +26,14 @@
               class="border border-green-500 bg-green-100 text-green-500 text-sm px-2 py-1 rounded-[8px] mb-4"
               *ngIf="verifiedStudent && studentFee"
             >
-              {{ verifiedStudent.fullName | titlecase }} -
-              {{ verifiedStudent.class.name }}
+              {{ verifiedStudent.fullName | titlecase }}
+
+              <span *ngIf="verifiedStudent.class">
+                - {{ verifiedStudent.class.name }}</span
+              >
+              <span *ngIf="verifiedStudent.department">
+                - {{ verifiedStudent.department.name }}</span
+              >
             </div>
 
             <app-text-input
