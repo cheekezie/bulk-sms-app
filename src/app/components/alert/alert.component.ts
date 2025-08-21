@@ -19,11 +19,17 @@ export class AlertComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.alertService.alert$.subscribe((data) => {
       this.alert = data;
-      timer(4000).subscribe(() => (this.alert = null)); // auto-dismiss
+      if (data.autoDismiss) {
+        timer(4000).subscribe(() => (this.alert = null));
+      }
     });
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+  }
+
+  close() {
+    this.alert = null;
   }
 }

@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface AlertDataI {
+  view?: 'snackbar' | 'modal';
   type: 'success' | 'error' | 'warning' | 'info' | 'alternate';
   title?: string;
-  description: string;
+  message: string;
+  autoDismiss?: boolean;
   position?:
     | 'top-center'
     | 'top-left'
@@ -21,6 +23,10 @@ export class AlertService {
   alert$ = this.alertSubject.asObservable();
 
   showAlert(data: AlertDataI) {
-    this.alertSubject.next({ position: 'top-center', ...data });
+    this.alertSubject.next({
+      position: 'top-center',
+      autoDismiss: true,
+      ...data,
+    });
   }
 }

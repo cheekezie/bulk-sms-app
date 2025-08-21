@@ -73,7 +73,7 @@ export class FeeSelectComponent {
       Alert.show({
         type: 'error',
         title: 'Payment not allowed',
-        description:
+        message:
           'Payment is not currently allowed for this fee. Check back later.',
       });
       return;

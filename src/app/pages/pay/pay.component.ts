@@ -223,7 +223,7 @@ export class PayComponent implements OnInit, OnDestroy {
       Alert.show({
         type: 'error',
         position: 'top-center',
-        description: 'You must start payment from the first schedule',
+        message: 'You must start payment from the first schedule',
       });
       return;
     }
@@ -246,7 +246,7 @@ export class PayComponent implements OnInit, OnDestroy {
       Alert.show({
         type: 'info',
         position: 'bottom-center',
-        description: 'This service is not available. Pay with bank transfer',
+        message: 'This service is not available. Pay with bank transfer',
       });
       return;
     }
@@ -279,6 +279,11 @@ export class PayComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.loading = false;
+          if (res.data.status === PaymentInitEnums.UPTODATE) {
+            Alert.modal({ type: 'success', message: res.message });
+            return;
+          }
+
           const hasAmount = res.data.scheduleDetails.filter(
             (s) => s.amount || s.actualAmount || s.amountToComplete
           );
@@ -288,7 +293,7 @@ export class PayComponent implements OnInit, OnDestroy {
           this.currStep++;
         },
         error: (err) => {
-          Alert.show({ type: 'error', description: err?.error?.message });
+          Alert.show({ type: 'error', message: err?.error?.message });
           this.loading = false;
         },
       });
@@ -303,20 +308,20 @@ export class PayComponent implements OnInit, OnDestroy {
         if (res.data.status === PaymentInitEnums.UPTODATE) {
           Alert.show({
             type: 'info',
-            description:
+            message:
               'Your payment is up to date. You have nothing to pay at this time for this fee',
           });
           return;
         }
 
         if (res.data.status === PaymentInitEnums.WALLETCOMPLETED) {
-          Alert.show({ type: 'info', description: res.data.message });
+          Alert.show({ type: 'info', message: res.data.message });
         }
 
         this.router.navigate(['invoice', res.data.invoice.transactionRef]);
       },
       error: (err) => {
-        Alert.show({ type: 'error', description: err?.error?.message });
+        Alert.show({ type: 'error', message: err?.error?.message });
         Loading.hide();
       },
     });
