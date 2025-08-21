@@ -14,4 +14,8 @@ export class Alert {
     }
     this.service.showAlert(data);
   }
+
+  static modal(data: AlertDataI) {
+    Alert.show({ ...data, view: 'modal' });
+  }
 }

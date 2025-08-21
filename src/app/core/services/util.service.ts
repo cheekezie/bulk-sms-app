@@ -84,7 +84,7 @@ export class UtilService {
       .writeText(val)
       .then(() => {
         Alert.show({
-          description: `${val} copied to clipboard`,
+          message: `${val} copied to clipboard`,
           type: 'info',
           position: 'bottom-center',
         });

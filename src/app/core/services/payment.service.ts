@@ -117,6 +117,7 @@ export class PaymentService {
     });
     return this.reqS.get<{
       data: GetScheduleI;
+      message: string;
     }>(PaymentApi.getSchedule, params);
   }
 

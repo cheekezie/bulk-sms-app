@@ -173,6 +173,7 @@ export interface GetScheduleI {
     regNumber: string;
   };
   _id: string;
+  status: string;
 }
 
 export interface ScheduleI {

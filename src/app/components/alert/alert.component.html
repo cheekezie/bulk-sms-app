@@ -1,12 +1,84 @@
 <!-- alert.component.html -->
-<div
-  *ngIf="alert"
-  [ngClass]="[
-    'alert-container w-[90%] md:w-[400px] transition-all duration-500 ease-in-out',
-    alert.position,
-    alert.type
-  ]"
->
-  <strong *ngIf="alert.title">{{ alert.title }}</strong>
-  <p>{{ alert.description }}</p>
+<div *ngIf="alert">
+  <div [ngSwitch]="alert.view">
+    <div class="modal-container px-[12px]" *ngSwitchCase="'modal'">
+      <div
+        class="max-w-[542px] mx-auto bg-white rounded-2xl shadow-md px-[32px] py-[20px] text-center w-full border border-[#D9D9D9]"
+      >
+        <div>
+          <div
+            class="h-[80px] w-[80px] rounded-full bg-green-100 mx-auto mb-[12px]"
+            [ngClass]="{
+              'bg-green-100': alert.type === 'success',
+              'bg-red-100': alert.type === 'error',
+              'bg-orange-100': alert.type === 'warning',
+              'bg-blue-100': alert.type === 'info',
+              'bg-black-100': alert.type === 'info',
+            }"
+          >
+            <svg
+              width="84"
+              height="84"
+              viewBox="0 0 84 84"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-20 h-20 fill-current"
+              [ngClass]="{
+              'text-green-500': alert.type === 'success',
+              'text-red-500': alert.type === 'error',
+              'text-orange-500': alert.type === 'warning',
+              'text-blue-500': alert.type === 'info',
+              'text-black-500': alert.type === 'info',
+            }"
+            >
+              <rect x="6" y="6" width="72" height="72" rx="36" />
+
+              <path
+                *ngIf="alert.type === 'success'"
+                d="M53.757 33.8221L52.2363 32.5981C51.4867 31.9957 51.0511 32.0027 50.4093 32.7954L39.3568 46.4352L34.2132 42.1617C33.5036 41.5656 33.0597 41.5973 32.4763 42.3266L31.3025 43.8549C30.707 44.6044 30.7831 45.03 31.487 45.6178L38.8177 51.6815C39.5724 52.3157 39.9973 52.2503 40.5807 51.5407L53.9478 35.6484C54.5756 34.8938 54.5376 34.4429 53.757 33.8221Z"
+                fill="white"
+              />
+              <path
+                *ngIf="alert.type === 'error'"
+                d="M52.24 31.76L42 42L31.76 31.76C31.07 31.07 29.93 31.07 29.24 31.76L28.26 32.74C27.57 33.43 27.57 34.57 28.26 35.26L38.5 45.5L28.26 55.74C27.57 56.43 27.57 57.57 28.26 58.26L29.24 59.24C29.93 59.93 31.07 59.93 31.76 59.24L42 49L52.24 59.24C52.93 59.93 54.07 59.93 54.76 59.24L55.74 58.26C56.43 57.57 56.43 56.43 55.74 55.74L45.5 45.5L55.74 35.26C56.43 34.57 56.43 33.43 55.74 32.74L54.76 31.76C54.07 31.07 52.93 31.07 52.24 31.76Z"
+                fill="white"
+              />
+              <path
+                *ngIf="alert.type !== 'error' && alert.type !== 'success'"
+                d="M40 32C40 31.4477 40.4477 31 41 31H43C43.5523 31 44 31.4477 44 32V46C44 46.5523 43.5523 47 43 47H41C40.4477 47 40 46.5523 40 46V32Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+
+          <h2 class="text-xl font-semibold text-gray-800 mb-[8px]">
+            {{ alert.title }}
+          </h2>
+          <p class="text-gray-500">
+            {{ alert.message }}
+          </p>
+          <button
+            *ngIf="!alert.autoDismiss"
+            class="btn close-btn text-dark text-sm mt-[12px]"
+            (click)="close()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SNACKBAR -->
+    <div
+      *ngSwitchDefault
+      [ngClass]="[
+        'alert-container w-[90%] md:w-[400px] transition-all duration-500 ease-in-out',
+        alert.position,
+        alert.type
+      ]"
+    >
+      <strong *ngIf="alert.title">{{ alert.title }}</strong>
+      <p>{{ alert.message }}</p>
+    </div>
+  </div>
 </div>

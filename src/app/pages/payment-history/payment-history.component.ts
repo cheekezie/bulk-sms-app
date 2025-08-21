@@ -94,7 +94,7 @@ export class PaymentHistoryComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        Alert.show({ type: 'error', description: err?.error?.message });
+        Alert.show({ type: 'error', message: err?.error?.message });
         this.loading = false;
         this.loading = true;
       },
