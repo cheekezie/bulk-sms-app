@@ -65,8 +65,10 @@ export class HomeComponent implements OnInit {
       ...form,
       recipients,
     };
+    Loading.show();
     this.msgService.sendSms(payload).subscribe({
       next: (res) => {
+        this.form.reset();
         Loading.hide();
         Alert.modal({ type: 'success', message: res.message });
       },
